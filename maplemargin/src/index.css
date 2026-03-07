@@ -74,13 +74,13 @@
 @layer base {
   :root {
     /* 1. Main Background & Text (Honeydew & Oxford Navy) */
-    --background: #1D3557;
-    /* Oxford Navy */
-    --foreground: #F1FAEE;
+    --background: #F1FAEE;
     /* Honeydew */
+    --foreground: #1d3557;
+    /* Oxford Navy */
 
     /* 2. Primary Action Colors (Punch Red) */
-    --primary: #E63946;
+    --primary: #e63946;
     /* Punch Red */
     --primary-foreground: #F1FAEE;
 
