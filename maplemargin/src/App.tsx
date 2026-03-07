@@ -25,7 +25,7 @@ function App() {
   };
   return (
     <ReactLenis root>
-      <div className="relative min-h-screen font-sans selection:bg-primary/20 bg-background text-foreground transition-colors duration-300">
+      <div className="relative min-h-screen font-sans selection:bg-primary/20 bg-transparent text-foreground transition-colors duration-300">
         <NodeNetwork isDark={isDark} />
 
         {/* Navigation */}
@@ -74,12 +74,12 @@ function App() {
           </section>
 
           {/* 2. Map Section placeholder */}
-          <section className="w-full max-w-6xl my-16 sm:my-24 relative">
-            <div className="w-full aspect-[4/3] sm:aspect-[21/9] flex items-center justify-center relative overflow-hidden backdrop-blur-sm">
+          <section className="w-full max-w-6xl my-16 sm:my-24 relative z-10">
+            <div className="w-full aspect-[4/3] sm:aspect-[21/9] flex items-center justify-center relative overflow-hidden rounded-3xl bg-transparent">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Map_of_Canada.svg"
-                alt="Canada Map Placeholder"
-                className="w-full h-full object-contain opacity-40 p-12 drop-shadow-2xl mix-blend-multiply transition-transform duration-1000 hover:scale-[1.02]"
+                src="/canada-map.png"
+                alt="Canada Map"
+                className="w-full h-full object-contain p-4 drop-shadow-2xl transition-transform duration-1000 hover:scale-[1.02] dark:invert dark:opacity-90 dark:brightness-110"
               />
             </div>
           </section>
@@ -93,22 +93,22 @@ function App() {
               <p className="text-foreground/70 leading-relaxed max-w-md">
                 Our Map Engineering tool doesn't just show tariffs; it calculates the consumer impact.
               </p>
-              <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 mt-2">
+              <Button className="bg-foreground text-background transition-all hover:opacity-80 hover:scale-105 active:scale-95 rounded-full px-8 mt-2">
                 Learn about our data model
               </Button>
             </div>
             {/* Visualizer Image/Graphic placeholder */}
-            <div className="rounded-[2rem] bg-secondary/30 aspect-[4/3] w-full border border-secondary/20 relative overflow-hidden order-1 md:order-2">
-              <div className="absolute inset-0 opacity-50 mix-blend-multiply" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, theme(colors.primary) 2px, transparent 0)', backgroundSize: '16px 16px' }} />
+            <div className="rounded-[2rem] bg-card aspect-[4/3] w-full border border-border relative overflow-hidden order-1 md:order-2 z-10 shadow-sm">
+              <div className="absolute inset-0 opacity-20 mix-blend-multiply" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, theme(colors.primary) 2px, transparent 0)', backgroundSize: '16px 16px' }} />
             </div>
           </section>
 
           {/* 4. Feature Section: Precision Intelligence */}
-          <section className="w-full max-w-6xl py-16 grid md:grid-cols-2 gap-12 sm:gap-24 items-center mt-12 mb-32">
+          <section className="w-full max-w-6xl py-16 grid md:grid-cols-2 gap-12 sm:gap-24 items-center mt-12 mb-32 relative z-10">
             {/* Visualizer Image/Graphic placeholder */}
-            <div className="rounded-[2rem] bg-gradient-to-br from-accent/40 to-muted aspect-[4/3] w-full border border-accent/20 relative overflow-hidden flex items-center justify-center">
+            <div className="rounded-[2rem] bg-card aspect-[4/3] w-full border border-border relative overflow-hidden flex items-center justify-center shadow-sm">
               {/* Purple/Pink blur circle matching Figma */}
-              <div className="absolute w-72 h-72 bg-primary/40 rounded-full blur-[80px]" />
+              <div className="absolute w-72 h-72 bg-primary/20 rounded-full blur-[80px]" />
             </div>
             <div className="flex flex-col items-start gap-6">
               <h2 className="text-3xl sm:text-5xl font-bold leading-tight">
@@ -117,7 +117,7 @@ function App() {
               <p className="text-foreground/70 leading-relaxed max-w-md">
                 In a world where a Supreme Court ruling can invalidate billions in duties overnight, you need more than a spreadsheet.
               </p>
-              <Button className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 mt-2">
+              <Button className="bg-foreground text-background transition-all hover:opacity-80 hover:scale-105 active:scale-95 rounded-full px-8 mt-2">
                 Start Stress-Testing
               </Button>
             </div>
@@ -126,27 +126,27 @@ function App() {
         </main>
 
         {/* Footer */}
-        <footer className="w-full bg-accent/20 pt-20 pb-10 px-6 sm:px-12 border-t border-accent/30 relative z-10">
+        <footer className="w-full bg-card pt-20 pb-10 px-6 sm:px-12 border-t border-border relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
           <div className="max-w-6xl mx-auto">
 
             {/* 3 Columns */}
-            <div className="grid sm:grid-cols-3 gap-12 mb-20 text-sm border-b border-foreground/10 pb-20">
+            <div className="grid sm:grid-cols-3 gap-12 mb-20 text-sm border-b border-border pb-20">
               <div className="flex flex-col gap-4">
-                <h3 className="font-bold text-base">Here text</h3>
-                <p className="text-foreground/70 leading-relaxed max-w-[280px]">
-                  Writing for websites is both simple and complex. On the one hand, all you need to do is say what you mean and in your words.
+                <h3 className="font-bold text-base text-foreground">Data Aggregation</h3>
+                <p className="text-foreground/90 leading-relaxed max-w-[280px]">
+                  We pull live fiscal data and trade margins directly from verified provincial and federal sources. Every data point is geocoded to provide a granular look at economic health across Canada
                 </p>
               </div>
               <div className="flex flex-col gap-4">
-                <h3 className="font-bold text-base">There text</h3>
-                <p className="text-foreground/70 leading-relaxed max-w-[280px]">
-                  Are you thinking of keywords you should rank for? Are you including links in your text to additional information?
+                <h3 className="font-bold text-base text-foreground">Real-time Analysis</h3>
+                <p className="text-foreground/90 leading-relaxed max-w-[280px]">
+                  Using our custom intelligence engine, raw numbers are transformed into actionable insights. We calculate the real-world impact of tariffs and market shifts before they reach the consumer basket.
                 </p>
               </div>
               <div className="flex flex-col gap-4">
-                <h3 className="font-bold text-base">Everywhere text</h3>
-                <p className="text-foreground/70 leading-relaxed max-w-[280px]">
-                  There's a theory that people read in an F-shape pattern, and that this should influence how you structure content on your website.
+                <h3 className="font-bold text-base text-foreground">Global Scalability</h3>
+                <p className="text-foreground/90 leading-relaxed max-w-[280px]">
+                  While we're starting with the North, our data model is built to scale. Our architecture supports rapid integration of international trade datasets for a truly global margin-tracking solution.
                 </p>
               </div>
             </div>

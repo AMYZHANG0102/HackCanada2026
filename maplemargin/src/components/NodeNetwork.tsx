@@ -81,9 +81,10 @@ const NodeNetwork = ({ isDark }: { isDark: boolean }) => {
                         const dist = Math.sqrt(distSq);
                         ctx.beginPath();
 
-                        // Lower connection opacity to create a deep background feel (10% max)
+                        // Determine base opacity for deep background feel depending on the theme
+                        const baseConnectionAlpha = isDarkRef.current ? 0.25 : 0.15;
                         const alpha = 1 - dist / maxDist;
-                        ctx.globalAlpha = alpha * 0.1;
+                        ctx.globalAlpha = alpha * baseConnectionAlpha;
 
                         // Map specific Hex colors instead of invalid canvas CSS variables
                         ctx.strokeStyle = isDarkRef.current ? '#ADB5BD' : '#1D3557';
@@ -96,7 +97,8 @@ const NodeNetwork = ({ isDark }: { isDark: boolean }) => {
                 }
 
                 // Draw the node points with very low opacity tracking
-                ctx.globalAlpha = 0.15;
+                const baseNodeAlpha = isDarkRef.current ? 0.35 : 0.25;
+                ctx.globalAlpha = baseNodeAlpha;
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, 4, 0, Math.PI * 2); // Bigger nodes
                 ctx.fillStyle = isDarkRef.current ? '#ADB5BD' : '#1D3557';
