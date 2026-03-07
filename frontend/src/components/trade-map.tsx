@@ -213,19 +213,6 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
           />
         )}
 
-        {/* Arc from Canada → USA (Tariff line) */}
-        {canadaCoords && usCoords && tariffRate > 0 && (
-          <Line
-            from={canadaCoords}
-            to={usCoords}
-            stroke="oklch(0.60 0.18 15)"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeDasharray="6,4"
-            style={{ opacity: 0.8 }}
-          />
-        )}
-
         {/* Markers for all exporters */}
         {allExporters.map((exp) => {
           const coords = COUNTRY_COORDS[exp.country];
