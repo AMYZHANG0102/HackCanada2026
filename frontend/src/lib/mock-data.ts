@@ -4,25 +4,11 @@ export interface SummaryData {
   top_affected_industries: string[];
 }
 
-export const summaryData: SummaryData = {
-  "total_trade_change_percent": -2.3,
-  "total_price_change_percent": 4.1,
-  "top_affected_industries": ["Electronics", "Cars", "Lumber"]
-};
-
 export interface PriceEffect {
   industry: string;
   country: string;
   price_change_percent: number;
 }
-
-export const priceEffectsData: { price_effects: PriceEffect[] } = {
-  "price_effects": [
-    {"industry": "electronics", "country": "Canada", "price_change_percent": 12},
-    {"industry": "cars", "country": "Canada", "price_change_percent": 3.5},
-    {"industry": "lumber", "country": "Canada", "price_change_percent": 5}
-  ]
-};
 
 export interface CanadaImpact {
   sector: string;
@@ -31,14 +17,6 @@ export interface CanadaImpact {
   export_value: number;
 }
 
-export const canadaImpactData: { canada_impact: CanadaImpact[] } = {
-  "canada_impact": [
-    {"sector": "Lumber", "export_change_percent": 5, "export_value": 21000000000},
-    {"sector": "Automobile", "production_change_percent": -2, "export_value": 45000000000},
-    {"sector": "Agriculture", "export_change_percent": 3, "export_value": 12000000000}
-  ]
-};
-
 export interface TradeChange {
   exporter: string;
   importer: string;
@@ -46,10 +24,48 @@ export interface TradeChange {
   change_percent: number;
 }
 
-export const tradeChangesData: { trade_changes: TradeChange[] } = {
-  "trade_changes": [
-    {"exporter": "China", "importer": "Canada", "product": "electronics", "change_percent": -15},
-    {"exporter": "Vietnam", "importer": "Canada", "product": "electronics", "change_percent": +8},
-    {"exporter": "Mexico", "importer": "Canada", "product": "electronics", "change_percent": +7}
-  ]
-};
+export interface DashboardData {
+  summary: SummaryData;
+  priceEffects: { price_effects: PriceEffect[] };
+  canadaImpact: { canada_impact: CanadaImpact[] };
+  tradeChanges: { trade_changes: TradeChange[] };
+}
+
+export function generateDashboardData(
+  productName: string,
+  exporter: string,
+  tariffRate: number
+): DashboardData {
+  // Use the tariff rate to proportionally drive the "ripple effects"
+  // Assuming a baseline of 25% tariff for the default models
+  const rateFactor = tariffRate / 25;
+
+  return {
+    summary: {
+      total_trade_change_percent: Number((-5.2 * rateFactor).toFixed(1)),
+      total_price_change_percent: Number((4.1 * rateFactor).toFixed(1)),
+      top_affected_industries: [productName, "Logistics", "Consumer Goods"],
+    },
+    priceEffects: {
+      price_effects: [
+        { industry: productName, country: "Canada", price_change_percent: Number((12 * rateFactor).toFixed(1)) },
+        { industry: productName, country: "USA", price_change_percent: Number((tariffRate * 0.8).toFixed(1)) },
+        { industry: "Logistics", country: "Global", price_change_percent: Number((2.5 * rateFactor).toFixed(1)) }
+      ]
+    },
+    canadaImpact: {
+      canada_impact: [
+        { sector: productName, export_change_percent: Number((-15 * rateFactor).toFixed(1)), export_value: 21000000000 },
+        { sector: "Manufacturing", production_change_percent: Number((-8 * rateFactor).toFixed(1)), export_value: 45000000000 },
+        { sector: "Raw Materials", export_change_percent: Number((3 * rateFactor).toFixed(1)), export_value: 12000000000 } // Diverted supply
+      ]
+    },
+    tradeChanges: {
+      trade_changes: [
+        { exporter: "Canada", importer: "USA", product: productName, change_percent: Number((-tariffRate * 0.9).toFixed(1)) },
+        { exporter: exporter || "China", importer: "Canada", product: productName, change_percent: Number((-12 * rateFactor).toFixed(1)) },
+        { exporter: "Mexico", importer: "USA", product: productName, change_percent: Number((8 * rateFactor).toFixed(1)) } // Substitution effect
+      ]
+    }
+  };
+}

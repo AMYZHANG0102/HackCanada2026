@@ -1,6 +1,6 @@
 "use client";
 
-import { canadaImpactData } from "@/lib/mock-data";
+import { CanadaImpact } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { TrendingDown, TrendingUp, Factory, TreePine, Wheat } from "lucide-react";
@@ -12,7 +12,7 @@ const sectorIcon = (sector: string) => {
   return <Factory className="h-5 w-5" />;
 };
 
-export function CanadaImpactPanel() {
+export function CanadaImpactPanel({ data }: { data: CanadaImpact[] }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -25,7 +25,7 @@ export function CanadaImpactPanel() {
       </div>
       
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {canadaImpactData.canada_impact.map((item) => {
+        {data.map((item) => {
           const changeVal = item.export_change_percent ?? item.production_change_percent ?? 0;
           const isNegative = changeVal < 0;
           const isExport = item.export_change_percent !== undefined;

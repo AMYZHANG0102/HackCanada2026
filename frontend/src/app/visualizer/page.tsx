@@ -8,6 +8,7 @@ import {
   getAlternativeSuppliers,
   TariffSimulationResult,
 } from "@/lib/tariff-engine";
+import { generateDashboardData } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
@@ -76,6 +77,11 @@ export default function Home() {
         : [],
     [product, country, tariffRate]
   );
+
+  const dashboardData = useMemo(() => {
+    if (!product) return null;
+    return generateDashboardData(product.name, country, tariffRate);
+  }, [product, country, tariffRate]);
 
   const handleProduct = useCallback((id: string) => {
     setSelectedId(id);
@@ -254,12 +260,13 @@ export default function Home() {
       </div>
 
       {/* ═══════ DASHBOARD CONTENT ═══════ */}
-      <main className="flex-1 px-4 sm:px-8 py-8 mx-auto w-full max-w-6xl space-y-8 animate-fade-up">
-        
-        {/* 1. Summary Statistics */}
-        <section>
-          <SummaryStats />
-        </section>
+      {product && dashboardData ? (
+        <main className="flex-1 px-4 sm:px-8 py-8 mx-auto w-full max-w-6xl space-y-8 animate-fade-up">
+          
+          {/* 1. Summary Statistics */}
+          <section>
+            <SummaryStats data={dashboardData.summary} />
+          </section>
 
         {/* 2. Top-Level Overview: Map & Price Effects */}
         <div className="grid lg:grid-cols-2 gap-6">
@@ -288,7 +295,7 @@ export default function Home() {
               Price / Cost Effects
             </h3>
             <div className="flex-1">
-              <PriceEffectsChart />
+              <PriceEffectsChart data={dashboardData.priceEffects.price_effects} />
             </div>
           </section>
         </div>
@@ -296,18 +303,31 @@ export default function Home() {
         {/* 3. Detailed Data Tables & Sector Impacts */}
         <div className="grid lg:grid-cols-2 gap-6 items-start">
           <section className="space-y-4">
-            <CanadaImpactPanel />
+            <CanadaImpactPanel data={dashboardData.canadaImpact.canada_impact} />
           </section>
 
           <section className="space-y-3">
             <h3 className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
               Direct Trade Changes
             </h3>
-            <TradeChangesTable />
+            <TradeChangesTable data={dashboardData.tradeChanges.trade_changes} />
           </section>
         </div>
 
       </main>
+      ) : (
+        <div className="flex-1 flex items-center justify-center min-h-[50vh]">
+          <div className="text-center max-w-md animate-fade-up">
+            <div className="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mx-auto mb-4 border border-border">
+              <span className="text-3xl filter grayscale opacity-60">🍁</span>
+            </div>
+            <h2 className="text-lg font-semibold mb-2 text-foreground">Awaiting Input Parameters</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Select a Canadian export sector above to generate real-time trade impact models and ripple effects based on current US tariff policies.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* ═══════ FOOTER ═══════ */}
       <footer className="border-t border-border mt-auto w-full bg-card pt-10 pb-10 px-6 sm:px-12 relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">

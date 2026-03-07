@@ -1,11 +1,11 @@
 "use client";
 
-import { priceEffectsData } from "@/lib/mock-data";
+import { PriceEffect } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-export function PriceEffectsChart() {
-  const data = priceEffectsData.price_effects.map(d => ({
+export function PriceEffectsChart({ data }: { data: PriceEffect[] }) {
+  const chartData = data.map(d => ({
     name: d.industry.charAt(0).toUpperCase() + d.industry.slice(1),
     change: d.price_change_percent,
     isCanada: d.country.toLowerCase() === "canada"
@@ -23,7 +23,7 @@ export function PriceEffectsChart() {
         
         <div className="h-[250px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted-foreground)/0.2)" />
               <XAxis 
                 dataKey="name" 
@@ -39,7 +39,7 @@ export function PriceEffectsChart() {
                 tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
               />
               <Tooltip 
-                cursor={{ fill: "hsl(var(--muted)/0.4)" }}
+                cursor={{ fill: "transparent" }}
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     const data = payload[0].payload;
@@ -56,7 +56,7 @@ export function PriceEffectsChart() {
                 }}
               />
               <Bar dataKey="change" radius={[4, 4, 0, 0]}>
-                {data.map((entry, index) => (
+                {chartData.map((entry, index) => (
                   <Cell 
                     key={`cell-${index}`} 
                     fill={entry.isCanada ? "oklch(0.60 0.18 15)" : "oklch(0.62 0.14 70)"} 

@@ -1,10 +1,10 @@
 "use client";
 
-import { tradeChangesData } from "@/lib/mock-data";
+import { TradeChange } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrendingDown, TrendingUp, ArrowRight } from "lucide-react";
 
-export function TradeChangesTable() {
+export function TradeChangesTable({ data }: { data: TradeChange[] }) {
   return (
     <Card className="shadow-none border border-border bg-card overflow-hidden">
       <CardContent className="p-0">
@@ -24,7 +24,7 @@ export function TradeChangesTable() {
               </tr>
             </thead>
             <tbody>
-              {tradeChangesData.trade_changes.map((row, i) => {
+              {data.map((row, i) => {
                 const isNegative = row.change_percent < 0;
                 return (
                   <tr key={i} className="border-b border-border/50 hover:bg-muted/10 transition-colors last:border-0">

@@ -1,12 +1,12 @@
 "use client";
 
-import { summaryData } from "@/lib/mock-data";
+import { SummaryData } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrendingDown, TrendingUp, AlertTriangle } from "lucide-react";
 
-export function SummaryStats() {
-  const isTradeNegative = summaryData.total_trade_change_percent < 0;
-  const isPricePositive = summaryData.total_price_change_percent > 0;
+export function SummaryStats({ data }: { data: SummaryData }) {
+  const isTradeNegative = data.total_trade_change_percent < 0;
+  const isPricePositive = data.total_price_change_percent > 0;
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -22,7 +22,7 @@ export function SummaryStats() {
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className={`text-3xl font-bold font-mono tracking-tighter ${isTradeNegative ? "text-impact-low" : "text-impact-high"}`}>
-              {summaryData.total_trade_change_percent > 0 ? "+" : ""}{summaryData.total_trade_change_percent}%
+              {data.total_trade_change_percent > 0 ? "+" : ""}{data.total_trade_change_percent}%
             </span>
           </div>
           <p className="text-xs text-muted-foreground mt-1">Impact on overall global trade volume</p>
@@ -41,7 +41,7 @@ export function SummaryStats() {
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className={`text-3xl font-bold font-mono tracking-tighter ${isPricePositive ? "text-impact-high" : "text-impact-low"}`}>
-              {summaryData.total_price_change_percent > 0 ? "+" : ""}{summaryData.total_price_change_percent}%
+              {data.total_price_change_percent > 0 ? "+" : ""}{data.total_price_change_percent}%
             </span>
           </div>
           <p className="text-xs text-muted-foreground mt-1">Estimated increase in consumer costs</p>
@@ -55,7 +55,7 @@ export function SummaryStats() {
             <AlertTriangle className="h-4 w-4 text-orange-500" />
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            {summaryData.top_affected_industries.map((ind) => (
+            {data.top_affected_industries.map((ind) => (
               <div key={ind} className="bg-muted px-2.5 py-1 rounded-md text-xs font-semibold text-foreground border border-border">
                 {ind}
               </div>
