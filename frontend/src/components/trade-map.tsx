@@ -66,7 +66,8 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; name: string; info: string } | null>(null);
 
-  const importerISO = COUNTRY_ISO["United States"];
+  const importerISO = COUNTRY_ISO["Canada"];
+  const usISO = COUNTRY_ISO["United States"];
   const selectedISO = COUNTRY_ISO[exporterCountry];
   const allExporterISOs = new Set(allExporters.map((e) => COUNTRY_ISO[e.country]).filter(Boolean));
 
@@ -77,18 +78,21 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
   }, [allExporters]);
 
   const selectedCoords = COUNTRY_COORDS[exporterCountry];
+  const canadaCoords = COUNTRY_COORDS["Canada"];
   const usCoords = COUNTRY_COORDS["United States"];
 
   const getFill = (id: string) => {
+    if (id === importerISO) return "oklch(0.60 0.18 15)";            // Canada — red
     if (id === selectedISO) return "oklch(0.55 0.14 152)";           // selected exporter — green
-    if (id === importerISO) return "oklch(0.62 0.14 230)";           // USA — blue
+    if (id === usISO) return "oklch(0.62 0.14 230)";                 // USA — blue
     if (allExporterISOs.has(id)) return "oklch(0.82 0.08 152)";      // other exporters — light green
     return "oklch(0.91 0.02 152)";                                    // rest of world
   };
 
   const getHoverFill = (id: string) => {
+    if (id === importerISO) return "oklch(0.52 0.18 15)";
     if (id === selectedISO) return "oklch(0.48 0.16 152)";
-    if (id === importerISO) return "oklch(0.55 0.16 230)";
+    if (id === usISO) return "oklch(0.55 0.16 230)";
     if (allExporterISOs.has(id)) return "oklch(0.72 0.1 152)";
     return "oklch(0.85 0.025 152)";
   };
@@ -108,13 +112,15 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
     const exporter = allExporters.find((x) => COUNTRY_ISO[x.country] === geoId);
     const isSelected = geoId === selectedISO;
     const isImporter = geoId === importerISO;
+    const isUS = geoId === usISO;
 
     let info = "";
-    if (isImporter) info = "Tariff imposer (USA)";
+    if (isImporter) info = "Primary Importer (Canada)";
+    else if (isUS) info = "Tariff Imposer (USA)";
     else if (isSelected) {
-      info = `${exporterMap[exporterCountry]?.sharePercent ?? 0}% of US imports · +${tariffRate}% tariff`;
+      info = `${exporterMap[exporterCountry]?.sharePercent ?? 0}% of Canada imports`;
     } else if (exporter) {
-      info = `${exporter.sharePercent}% of US imports · ${exporter.baseTariff}% base tariff`;
+      info = `${exporter.sharePercent}% of Canada imports`;
     }
 
     if (info) {
@@ -140,9 +146,10 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
       {/* Legend */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 bg-card/90 backdrop-blur-sm rounded-lg border border-border/50 p-2.5 text-[10px]">
         {[
+          { color: "oklch(0.60 0.18 15)", label: "Importer (Canada)" },
           { color: "oklch(0.55 0.14 152)", label: "Selected exporter" },
           { color: "oklch(0.82 0.08 152)", label: "Other exporters" },
-          { color: "oklch(0.62 0.14 230)", label: "Importer (USA)" },
+          { color: "oklch(0.62 0.14 230)", label: "Tariff Target (USA)" },
         ].map((l) => (
           <div key={l.label} className="flex items-center gap-1.5">
             <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: l.color }} />
@@ -154,7 +161,7 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
       {/* Tariff badge */}
       {tariffRate > 0 && (
         <div className="absolute top-3 right-3 z-10 bg-impact-high/10 border border-impact-high/25 rounded-lg px-2.5 py-1.5 text-[11px] font-mono font-semibold text-impact-high">
-          +{tariffRate}% tariff on {exporterCountry}
+          +{tariffRate}% tariff to USA
         </div>
       )}
 
@@ -169,7 +176,7 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
               const id = geo.id as string;
               const isHovered = hoveredCountry === id;
               const isInteractive =
-                id === selectedISO || id === importerISO || allExporterISOs.has(id);
+                id === selectedISO || id === importerISO || id === usISO || allExporterISOs.has(id);
 
               return (
                 <Geography
@@ -193,16 +200,29 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
           }
         </Geographies>
 
-        {/* Arc from exporter → USA */}
-        {selectedCoords && usCoords && tariffRate > 0 && (
+        {/* Arc from exporter → Canada */}
+        {selectedCoords && canadaCoords && (
           <Line
             from={selectedCoords}
-            to={usCoords}
-            stroke="oklch(0.60 0.18 15)"
+            to={canadaCoords}
+            stroke="oklch(0.55 0.14 152)"
             strokeWidth={1.5}
             strokeLinecap="round"
+            strokeDasharray="4,4"
+            style={{ opacity: 0.6 }}
+          />
+        )}
+
+        {/* Arc from Canada → USA (Tariff line) */}
+        {canadaCoords && usCoords && tariffRate > 0 && (
+          <Line
+            from={canadaCoords}
+            to={usCoords}
+            stroke="oklch(0.60 0.18 15)"
+            strokeWidth={2}
+            strokeLinecap="round"
             strokeDasharray="6,4"
-            style={{ opacity: 0.7 }}
+            style={{ opacity: 0.8 }}
           />
         )}
 
@@ -227,7 +247,14 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
         {/* USA marker */}
         {usCoords && (
           <Marker coordinates={usCoords}>
-            <circle r={5} fill="oklch(0.62 0.14 230)" stroke="white" strokeWidth={1.5} />
+            <circle r={4} fill="oklch(0.62 0.14 230)" stroke="white" strokeWidth={1.5} />
+          </Marker>
+        )}
+
+        {/* Canada marker (Main Importer) */}
+        {canadaCoords && (
+          <Marker coordinates={canadaCoords}>
+            <circle r={6} fill="oklch(0.60 0.18 15)" stroke="white" strokeWidth={2} />
           </Marker>
         )}
       </ComposableMap>
