@@ -14,7 +14,7 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import AccessibilityMenu from "@/components/accessibility-menu";
 import { Button } from "@/components/ui/button";
-import { Settings, Instagram, Linkedin, Twitter, Moon, Sun } from "lucide-react";
+import { Settings, Instagram, Linkedin, Twitter, Contrast } from "lucide-react";
 import { SummaryStats } from "@/components/summary-stats";
 import { CanadaImpactPanel } from "@/components/canada-impact-panel";
 import { PriceEffectsChart } from "@/components/price-effects-chart";
@@ -134,11 +134,12 @@ export default function Home() {
           <Button
             variant="outline"
             size="icon"
-            className="rounded-full bg-background border-border hover:bg-muted shadow-sm"
+            className="rounded-full bg-background border-border hover:bg-muted shadow-sm transition-transform hover:scale-105"
             onClick={toggleTheme}
-            aria-label="Toggle Dark Mode"
+            aria-label="Toggle High Contrast"
+            title="Toggle High Contrast"
           >
-            {isDark ? <Sun className="h-4 w-4 text-primary" /> : <Moon className="h-4 w-4 text-primary" />}
+            <Contrast className={cn("h-4 w-4 text-primary transition-transform duration-300", isDark ? "rotate-90" : "rotate-0")} />
           </Button>
         </div>
       </header>
@@ -215,10 +216,10 @@ export default function Home() {
                     onChange={(e) => setCountry(e.target.value)}
                     className="appearance-none h-9 pl-3 pr-8 rounded-lg border border-border bg-card text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 cursor-pointer hover:border-border/80 transition-colors"
                   >
-                    <option disabled value="">Exporting country</option>
+                    <option disabled value="">Exporting to Canada</option>
                     {product.topExporters.map((e) => (
                       <option key={e.country} value={e.country}>
-                        {e.flag} {e.country} — {e.sharePercent}% of US imports
+                        {e.flag} {e.country} — {e.sharePercent}% of Canada imports
                       </option>
                     ))}
                   </select>
