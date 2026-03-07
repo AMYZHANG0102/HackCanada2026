@@ -1,8 +1,13 @@
 import { useEffect, useRef } from 'react';
 
-const NodeNetwork = () => {
+const NodeNetwork = ({ isDark }: { isDark: boolean }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const scrollPos = useRef(0);
+    const isDarkRef = useRef(isDark);
+
+    useEffect(() => {
+        isDarkRef.current = isDark;
+    }, [isDark]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -76,10 +81,13 @@ const NodeNetwork = () => {
                         const dist = Math.sqrt(distSq);
                         ctx.beginPath();
 
-                        // Use globalAlpha for transparency so we can use CSS variables directly
+                        // Lower connection opacity to create a deep background feel (10% max)
                         const alpha = 1 - dist / maxDist;
-                        ctx.globalAlpha = alpha * 0.4;
-                        ctx.strokeStyle = `var(--foreground)`;
+                        ctx.globalAlpha = alpha * 0.1;
+
+                        // Map specific Hex colors instead of invalid canvas CSS variables
+                        ctx.strokeStyle = isDarkRef.current ? '#ADB5BD' : '#1D3557';
+
                         ctx.lineWidth = 1.2;
                         ctx.moveTo(node.x, node.y);
                         ctx.lineTo(other.x, other.y);
@@ -87,11 +95,11 @@ const NodeNetwork = () => {
                     }
                 }
 
-                // Draw the node points
-                ctx.globalAlpha = 0.8;
+                // Draw the node points with very low opacity tracking
+                ctx.globalAlpha = 0.15;
                 ctx.beginPath();
                 ctx.arc(node.x, node.y, 4, 0, Math.PI * 2); // Bigger nodes
-                ctx.fillStyle = `var(--foreground)`;
+                ctx.fillStyle = isDarkRef.current ? '#ADB5BD' : '#1D3557';
                 ctx.fill();
                 ctx.globalAlpha = 1.0; // Reset alpha
             });

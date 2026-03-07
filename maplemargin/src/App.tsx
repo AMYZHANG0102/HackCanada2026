@@ -1,5 +1,6 @@
 import { ReactLenis } from 'lenis/react';
 import NodeNetwork from './components/NodeNetwork';
+import AccessibilityMenu from './components/AccessibilityMenu';
 import { Button } from './components/ui/button';
 import { Settings, Instagram, Linkedin, Twitter, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -24,26 +25,31 @@ function App() {
   };
   return (
     <ReactLenis root>
-      <div className="relative min-h-screen font-sans selection:bg-primary/20">
-        <NodeNetwork />
+      <div className="relative min-h-screen font-sans selection:bg-primary/20 bg-background text-foreground transition-colors duration-300">
+        <NodeNetwork isDark={isDark} />
 
         {/* Navigation */}
         <nav className="absolute top-0 left-0 w-full p-6 sm:px-12 flex justify-between items-center z-50">
           <div className="flex items-center gap-2">
             <Settings className="w-8 h-8 text-foreground" />
           </div>
-          <div className="hidden sm:flex items-center gap-8 text-sm font-medium">
+          <div className="hidden sm:flex items-center gap-4 sm:gap-6 text-sm font-medium">
             <a href="#" className="hover:text-primary transition-colors">Products</a>
             <a href="#" className="hover:text-primary transition-colors">Resources</a>
             <a href="#" className="hover:text-primary transition-colors">Pricing</a>
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full bg-background border-border hover:bg-muted"
-              onClick={toggleTheme}
-            >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
+
+            <div className="flex items-center gap-2 border-l border-border pl-4 ml-2">
+              <AccessibilityMenu />
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-full bg-background border-border hover:bg-muted"
+                onClick={toggleTheme}
+                aria-label="Toggle Dark Mode"
+              >
+                {isDark ? <Sun className="h-4 w-4 text-primary" /> : <Moon className="h-4 w-4 text-primary" />}
+              </Button>
+            </div>
           </div>
         </nav>
 
@@ -58,10 +64,10 @@ function App() {
               Navigating the 2026 Tariff Shock in real time
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8">
+              <Button size="lg" className="rounded-full px-8 shadow-sm transition-all hover:opacity-80 hover:scale-105 active:scale-95">
                 Try the Visualizer
               </Button>
-              <Button size="lg" variant="outline" className="rounded-full px-8 bg-transparent border-foreground/20 hover:bg-foreground/5">
+              <Button size="lg" variant="secondary" className="rounded-full px-8 shadow-sm border border-border transition-all hover:bg-secondary/80 hover:scale-105 active:scale-95">
                 View Live Data Feed
               </Button>
             </div>

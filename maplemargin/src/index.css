@@ -122,16 +122,17 @@
     --card-foreground: #ADB5BD;
     /* Pale Slate */
 
-    /* 4. Interactive Accents & Icons & Secondary Buttons */
-    --primary: #6C757D;
-    /* Slate Grey for buttons */
+    /* 4. Primary CTAs (Highest Contrast) */
+    --primary: #ADB5BD;
+    /* Pale Slate */
     --primary-foreground: #212529;
     /* Carbon Black text on buttons */
 
-    --secondary: #343A40;
-    /* Gunmetal */
-    --secondary-foreground: #ADB5BD;
-    /* Pale Slate */
+    /* Secondary Buttons / Accents */
+    --secondary: #6C757D;
+    /* Slate Grey */
+    --secondary-foreground: #F1FAEE;
+    /* High contrast text on secondary */
 
     --accent: #6C757D;
     /* Slate Grey */
@@ -147,7 +148,7 @@
     /* Muted Elements (Descriptive text) */
     --muted: #343A40;
     /* Gunmetal */
-    --muted-foreground: #495057;
-    /* Iron Grey */
+    --muted-foreground: #6C757D;
+    /* Slate Grey (Iron grey is too dark to read) */
   }
 }
