@@ -30,12 +30,12 @@ const NodeNetwork = () => {
 
             // Re-initialize nodes on major resize to prevent them grouping weirdly
             if (nodes.length === 0) {
-                for (let i = 0; i < 60; i++) {
+                for (let i = 0; i < 40; i++) { // Less density
                     nodes.push({
                         x: Math.random() * window.innerWidth,
                         y: Math.random() * window.innerHeight,
-                        vx: (Math.random() - 0.5) * 1,
-                        vy: (Math.random() - 0.5) * 1
+                        vx: (Math.random() - 0.5) * 0.8,
+                        vy: (Math.random() - 0.5) * 0.8
                     });
                 }
             }
@@ -48,11 +48,10 @@ const NodeNetwork = () => {
 
             // Update based on scroll
             const currentScroll = window.scrollY;
-            // Scroll speed modifier, with a max cap to prevent crazy speeds
-            const scrollDiff = Math.abs(currentScroll - scrollPos.current);
-            const speedMultiplier = 1 + Math.min(scrollDiff * 0.1, 5);
-
             scrollPos.current = currentScroll;
+
+            // Constant speed multiplier regardless of scroll
+            const speedMultiplier = 1;
 
             nodes.forEach((node, i) => {
                 // Move nodes
@@ -66,32 +65,35 @@ const NodeNetwork = () => {
                 if (node.y > canvas.height) { node.y = canvas.height; node.vy *= -1; }
 
                 // Draw connections (only if close)
-                // Optimization: start loop from i + 1 to avoid double-drawing and self-drawing
                 for (let j = i + 1; j < nodes.length; j++) {
                     const other = nodes[j];
                     const dx = node.x - other.x;
                     const dy = node.y - other.y;
-                    const distSq = dx * dx + dy * dy; // Use squared distance for performance
-                    const maxDist = 150;
+                    const distSq = dx * dx + dy * dy;
+                    const maxDist = 220; // Longer connections for more complex mesh
 
                     if (distSq < maxDist * maxDist) {
                         const dist = Math.sqrt(distSq);
                         ctx.beginPath();
-                        // Using a frosted blue / cotton candy pink tone based on your CSS variables
+
+                        // Use globalAlpha for transparency so we can use CSS variables directly
                         const alpha = 1 - dist / maxDist;
-                        ctx.strokeStyle = `rgba(168, 218, 220, ${alpha * 0.6})`; // Frosted Blue from your index.css
-                        ctx.lineWidth = 0.8;
+                        ctx.globalAlpha = alpha * 0.4;
+                        ctx.strokeStyle = `var(--foreground)`;
+                        ctx.lineWidth = 1.2;
                         ctx.moveTo(node.x, node.y);
                         ctx.lineTo(other.x, other.y);
                         ctx.stroke();
                     }
                 }
 
-                // Optionally draw the node points themselves
+                // Draw the node points
+                ctx.globalAlpha = 0.8;
                 ctx.beginPath();
-                ctx.arc(node.x, node.y, 2, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(230, 57, 70, 0.4)`; // Punch Red
+                ctx.arc(node.x, node.y, 4, 0, Math.PI * 2); // Bigger nodes
+                ctx.fillStyle = `var(--foreground)`;
                 ctx.fill();
+                ctx.globalAlpha = 1.0; // Reset alpha
             });
 
             animationFrameId = requestAnimationFrame(animate);
@@ -99,18 +101,11 @@ const NodeNetwork = () => {
 
         window.addEventListener('resize', resize);
 
-        // Add scroll event listener to trigger the speed burst even without RAF loop catching it immediately
-        const handleScroll = () => {
-            // This is intentionally light, just forces the next frame to pick up the new scrollY
-        };
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
         resize();
         animate();
 
         return () => {
             window.removeEventListener('resize', resize);
-            window.removeEventListener('scroll', handleScroll);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);

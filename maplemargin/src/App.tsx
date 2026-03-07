@@ -1,10 +1,27 @@
 import { ReactLenis } from 'lenis/react';
 import NodeNetwork from './components/NodeNetwork';
 import { Button } from './components/ui/button';
-import { Settings, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Settings, Instagram, Linkedin, Twitter, Moon, Sun } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Check initial document state or system preference
+    if (document.documentElement.classList.contains('dark')) {
+      setIsDark(true);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+      setIsDark(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle('dark');
+    setIsDark(!isDark);
+  };
   return (
     <ReactLenis root>
       <div className="relative min-h-screen font-sans selection:bg-primary/20">
@@ -19,6 +36,14 @@ function App() {
             <a href="#" className="hover:text-primary transition-colors">Products</a>
             <a href="#" className="hover:text-primary transition-colors">Resources</a>
             <a href="#" className="hover:text-primary transition-colors">Pricing</a>
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full bg-background border-border hover:bg-muted"
+              onClick={toggleTheme}
+            >
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
           </div>
         </nav>
 

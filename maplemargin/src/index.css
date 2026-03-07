@@ -73,38 +73,81 @@
 
 @layer base {
   :root {
-    /* 1. Main Background & Text (Honeydew & Oxford Navy) */
+    /* Main Background & Text */
     --background: #F1FAEE;
     /* Honeydew */
-    --foreground: #1d3557;
+    --foreground: #1D3557;
     /* Oxford Navy */
 
-    /* 2. Primary Action Colors (Punch Red) */
-    --primary: #e63946;
-    /* Punch Red */
+    /* Cards & Containers */
+    --card: #F1FAEE;
+    --card-foreground: #1D3557;
+
+    /* Primary Action */
+    --primary: #1D3557;
+    /* Oxford Navy for Primary Buttons in Light Mode */
     --primary-foreground: #F1FAEE;
 
-    /* 3. Cards & Accents (Cotton Candy & Frosted Blue) */
-    --card: #1D3557;
-    /* Keeping it Navy for the dark look */
-    --card-foreground: #F1FAEE;
-
-    --secondary: #EC9A9A;
-    /* Cotton Candy */
+    /* Secondary / Accents */
+    --secondary: #E2E8F0;
     --secondary-foreground: #1D3557;
 
-    --accent: #A8DADC;
-    /* Frosted Blue */
+    --accent: #E2E8F0;
     --accent-foreground: #1D3557;
 
-    /* 4. Borders & UI Elements */
-    --border: #A8DADC;
-    /* Frosted Blue */
-    --input: #A8DADC;
-    --ring: #E63946;
-    /* Punch Red focus ring */
+    /* Borders & UI Constraints */
+    --border: rgba(29, 53, 87, 0.2);
+    --input: rgba(29, 53, 87, 0.2);
+    --ring: #1D3557;
 
-    /* 5. Design Constants from your Figma */
+    /* Muted Elements */
+    --muted: #E2E8F0;
+    --muted-foreground: #64748B;
+
     --radius: 0.75rem;
+  }
+
+  .dark {
+    /* 1. Main Background Canvas for maximum depth */
+    --background: #212529;
+    /* Carbon Black */
+
+    /* 5. Primary Text & Data Highlights (Highest Contrast) */
+    --foreground: #ADB5BD;
+    /* Pale Slate */
+
+    /* 2. Secondary Containers & Cards (Subtle visual separation) */
+    --card: #343A40;
+    /* Gunmetal */
+    --card-foreground: #ADB5BD;
+    /* Pale Slate */
+
+    /* 4. Interactive Accents & Icons & Secondary Buttons */
+    --primary: #6C757D;
+    /* Slate Grey for buttons */
+    --primary-foreground: #212529;
+    /* Carbon Black text on buttons */
+
+    --secondary: #343A40;
+    /* Gunmetal */
+    --secondary-foreground: #ADB5BD;
+    /* Pale Slate */
+
+    --accent: #6C757D;
+    /* Slate Grey */
+    --accent-foreground: #212529;
+
+    /* 3. Secondary Text & Borders */
+    --border: #495057;
+    /* Iron Grey */
+    --input: #495057;
+    /* Iron Grey */
+    --ring: #ADB5BD;
+
+    /* Muted Elements (Descriptive text) */
+    --muted: #343A40;
+    /* Gunmetal */
+    --muted-foreground: #495057;
+    /* Iron Grey */
   }
 }
