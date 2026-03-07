@@ -7,6 +7,9 @@ import { auto as autoQuality } from '@cloudinary/url-gen/qualifiers/quality';
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
 import { cld, uploadPreset } from './cloudinary/config';
 import { UploadWidget } from './cloudinary/UploadWidget';
+
+import UploadImage from "./components/UploadImage.tsx";
+
 import type { CloudinaryUploadResult } from './cloudinary/UploadWidget';
 import './App.css';
 
@@ -40,7 +43,7 @@ function App() {
   const copyPrompt = (text: string, id: number) => {
     void navigator.clipboard.writeText(text).then(() => {
       setClickedIds((prev) => new Set(prev).add(id));
-      setTimeout(() => setClickedIds( (prev) => {
+      setTimeout(() => setClickedIds((prev) => {
         const next = new Set(prev);
         next.delete(id);
         return next;
@@ -50,7 +53,7 @@ function App() {
 
   // Display uploaded image if available, otherwise show a sample
   const imageId = uploadedImageId || 'samples/people/bicycle';
-  
+
   const displayImage = cld
     .image(imageId)
     .resize(fill().width(600).height(400).gravity(autoGravity()))
@@ -62,7 +65,7 @@ function App() {
       <main className="main-content">
         <h1>Cloudinary React Starter Kit</h1>
         <p>This is a ready-to-use development environment with Cloudinary integration.</p>
-        
+
         {hasUploadPreset && (
           <div className="upload-section">
             <h2>Upload an Image</h2>
@@ -71,6 +74,9 @@ function App() {
               onUploadError={handleUploadError}
               buttonText="Upload Image"
             />
+
+            <UploadImage />
+
           </div>
         )}
 
