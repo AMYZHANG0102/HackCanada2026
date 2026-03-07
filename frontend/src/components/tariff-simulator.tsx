@@ -72,7 +72,7 @@ export function TariffSimulator({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Select value={country} onValueChange={onCountryChange}>
+            <Select value={country} onValueChange={(v) => { if (v) onCountryChange(v); }}>
               <SelectTrigger className="w-full" id="country-select">
                 <SelectValue placeholder="Select country" />
               </SelectTrigger>
@@ -117,7 +117,7 @@ export function TariffSimulator({
             <Slider
               id="tariff-slider"
               value={[tariffRate]}
-              onValueChange={(v) => onTariffChange(v[0])}
+              onValueChange={(v) => onTariffChange(Array.isArray(v) ? v[0] : (v as unknown as number))}
               min={0}
               max={50}
               step={1}

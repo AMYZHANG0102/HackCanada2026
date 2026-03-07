@@ -1,17 +1,16 @@
-"use client";
-
-import { ReactLenis } from 'lenis/react';
-import NodeNetwork from '@/components/node-network';
-import AccessibilityMenu from '@/components/accessibility-menu';
-import { Button } from '@/components/ui/button';
+﻿import { ReactLenis } from 'lenis/react';
+import NodeNetwork from './components/NodeNetwork';
+import AccessibilityMenu from './components/AccessibilityMenu';
+import { Button } from './components/ui/button';
 import { Settings, Instagram, Linkedin, Twitter, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import './App.css';
 
-export default function Home() {
+function App() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    // Check initial document state or system preference
     if (document.documentElement.classList.contains('dark')) {
       setIsDark(true);
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -26,14 +25,13 @@ export default function Home() {
   };
   return (
     <ReactLenis root>
-      <div className="relative min-h-screen font-sans selection:bg-primary/20 bg-transparent text-foreground transition-colors duration-300 overflow-x-hidden">
+      <div className="relative min-h-screen font-sans selection:bg-primary/20 bg-transparent text-foreground transition-colors duration-300">
         <NodeNetwork isDark={isDark} />
 
         {/* Navigation */}
         <nav className="absolute top-0 left-0 w-full p-6 sm:px-12 flex justify-between items-center z-50">
-          <div className="flex items-center gap-2 font-bold tracking-tight">
+          <div className="flex items-center gap-2">
             <Settings className="w-8 h-8 text-foreground" />
-            Maple Margin
           </div>
           <div className="hidden sm:flex items-center gap-4 sm:gap-6 text-sm font-medium">
             <a href="#" className="hover:text-primary transition-colors">Products</a>
@@ -45,7 +43,7 @@ export default function Home() {
               <Button
                 variant="outline"
                 size="icon"
-                className="rounded-full bg-background border-border hover:bg-muted shadow-sm"
+                className="rounded-full bg-background border-border hover:bg-muted"
                 onClick={toggleTheme}
                 aria-label="Toggle Dark Mode"
               >
@@ -58,7 +56,7 @@ export default function Home() {
         <main className="relative z-10 w-full flex flex-col items-center pt-32 pb-24 px-6 sm:px-12">
 
           {/* 1. Hero Section */}
-          <section className="text-center max-w-4xl py-12 sm:py-20 flex flex-col items-center animate-in fade-in slide-in-from-bottom-6 duration-1000">
+          <section className="text-center max-w-4xl py-12 sm:py-20 flex flex-col items-center">
             <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-4 text-foreground">
               Maple Margin
             </h1>
@@ -66,11 +64,9 @@ export default function Home() {
               Navigating the 2026 Tariff Shock in real time
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Link href="/visualizer">
-                <Button size="lg" className="rounded-full px-8 shadow-sm transition-all hover:opacity-80 hover:scale-105 active:scale-95">
-                  Try the Visualizer
-                </Button>
-              </Link>
+              <Button size="lg" className="rounded-full px-8 shadow-sm transition-all hover:opacity-80 hover:scale-105 active:scale-95">
+                Try the Visualizer
+              </Button>
               <Button size="lg" variant="secondary" className="rounded-full px-8 shadow-sm border border-border transition-all hover:bg-secondary/80 hover:scale-105 active:scale-95">
                 View Live Data Feed
               </Button>
@@ -78,7 +74,7 @@ export default function Home() {
           </section>
 
           {/* 2. Map Section placeholder */}
-          <section className="w-full max-w-6xl my-16 sm:my-24 relative z-10 animate-in fade-in duration-1000 delay-300">
+          <section className="w-full max-w-6xl my-16 sm:my-24 relative z-10">
             <div className="w-full aspect-[4/3] sm:aspect-[21/9] flex items-center justify-center relative overflow-hidden rounded-3xl bg-transparent">
               <img
                 src="/canada-map.png"
@@ -181,3 +177,5 @@ export default function Home() {
     </ReactLenis>
   );
 }
+
+export default App;

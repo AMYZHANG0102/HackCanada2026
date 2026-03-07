@@ -164,7 +164,7 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
         style={{ width: "100%", height: "auto" }}
       >
         <Geographies geography={GEO_URL}>
-          {({ geographies }) =>
+          {({ geographies }: { geographies: any[] }) =>
             geographies.map((geo) => {
               const id = geo.id as string;
               const isHovered = hoveredCountry === id;
