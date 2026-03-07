@@ -40,17 +40,51 @@ export function generateDashboardData(
   // Assuming a baseline of 25% tariff for the default models
   const rateFactor = tariffRate / 25;
 
+  let related1 = "Manufacturing";
+  let related2 = "Consumer Goods";
+
+  switch (productName) {
+    case "Softwood Lumber":
+      related1 = "Home Construction";
+      related2 = "Furniture Mfg";
+      break;
+    case "Steel & Aluminum":
+      related1 = "Auto Manufacturing";
+      related2 = "Appliances";
+      break;
+    case "Oil & Energy":
+      related1 = "Transportation";
+      related2 = "Plastics & Chemicals";
+      break;
+    case "Vehicles & Auto Parts":
+      related1 = "Dealerships";
+      related2 = "Logistics";
+      break;
+    case "Potash & Fertilizers":
+      related1 = "US Agriculture";
+      related2 = "Food Production";
+      break;
+    case "Wheat & Canola":
+      related1 = "Baking & Milling";
+      related2 = "Restaurants";
+      break;
+    case "Electronics & Tech":
+      related1 = "Computers";
+      related2 = "Smartphones";
+      break;
+  }
+
   return {
     summary: {
       total_trade_change_percent: Number((-5.2 * rateFactor).toFixed(1)),
       total_price_change_percent: Number((4.1 * rateFactor).toFixed(1)),
-      top_affected_industries: [productName, "Logistics", "Consumer Goods"],
+      top_affected_industries: [productName, related1, related2],
     },
     priceEffects: {
       price_effects: [
         { industry: productName, country: "Canada", price_change_percent: Number((12 * rateFactor).toFixed(1)) },
-        { industry: productName, country: "USA", price_change_percent: Number((tariffRate * 0.8).toFixed(1)) },
-        { industry: "Logistics", country: "Global", price_change_percent: Number((2.5 * rateFactor).toFixed(1)) }
+        { industry: related1, country: "USA", price_change_percent: Number((tariffRate * 0.4).toFixed(1)) },
+        { industry: related2, country: "USA", price_change_percent: Number((tariffRate * 0.25).toFixed(1)) }
       ]
     },
     canadaImpact: {
