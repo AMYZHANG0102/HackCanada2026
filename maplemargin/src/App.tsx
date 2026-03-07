@@ -30,9 +30,35 @@ function App() {
   const [uploadedImageId, setUploadedImageId] = useState<string | null>(null);
   const [clickedIds, setClickedIds] = useState(new Set<number>());
 
-  const handleUploadSuccess = (result: CloudinaryUploadResult) => {
+  const handleUploadSuccess = async (result: CloudinaryUploadResult) => {
     console.log('Upload successful:', result);
     setUploadedImageId(result.public_id);
+
+    // Cloudinary URL of the uploaded image
+    const imageUrl = result.secure_url;
+
+    try {
+
+      // Send the image URL to the backend Vision server
+      const response = await fetch("http://localhost:3001/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          imageUrl: imageUrl
+        })
+      });
+
+      const data = await response.json();
+
+      console.log("Vision result:", data);
+
+    } catch (error) {
+
+      console.error("Vision request failed:", error);
+
+    }
   };
 
   const handleUploadError = (error: Error) => {

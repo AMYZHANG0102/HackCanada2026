@@ -29,3 +29,4 @@ server/.env
 *.njsproj
 *.sln
 *.sw?
+vision-key.json
