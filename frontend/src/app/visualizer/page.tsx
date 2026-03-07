@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { products } from "@/lib/products";
 import {
   simulateTariff,
@@ -126,10 +127,10 @@ export default function Home() {
 
       {/* ═══════ HEADER ═══════ */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/90 backdrop-blur-md px-4 sm:px-8 py-3.5">
-        <div className="flex items-center gap-2 font-bold tracking-tight">
+        <Link href="/" className="flex items-center gap-2 font-bold tracking-tight hover:opacity-80 transition-opacity">
           <Settings className="w-6 h-6 sm:w-8 sm:h-8 text-foreground" />
           <span className="hidden sm:inline">Maple Margin</span>
-        </div>
+        </Link>
         <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground font-medium">
           <a href="#" className="hover:text-foreground transition-colors">Products</a>
           <a href="#" className="hover:text-foreground transition-colors">Resources</a>
