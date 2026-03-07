@@ -12,6 +12,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import AccessibilityMenu from "@/components/accessibility-menu";
+import { Button } from "@/components/ui/button";
+import { Settings, Instagram, Linkedin, Twitter, Moon, Sun } from "lucide-react";
 
 /* Lazy-load the map (uses browser APIs, no SSR) */
 const TradeMap = dynamic(
@@ -92,42 +95,47 @@ export default function Home() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    if (document.documentElement.classList.contains('dark')) {
+      setIsDark(true);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+      setIsDark(true);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle('dark');
+    setIsDark(!isDark);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
 
       {/* ═══════ HEADER ═══════ */}
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/90 backdrop-blur-md px-8 py-3.5">
-        <div className="flex items-center gap-2">
-          <LogoMark size={16} />
-          <span className="font-semibold text-sm tracking-tight">Maple Margin</span>
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/90 backdrop-blur-md px-4 sm:px-8 py-3.5">
+        <div className="flex items-center gap-2 font-bold tracking-tight">
+          <Settings className="w-6 h-6 sm:w-8 sm:h-8 text-foreground" />
+          <span className="hidden sm:inline">Maple Margin</span>
         </div>
-        <nav className="hidden sm:flex items-center gap-8 text-sm text-muted-foreground">
+        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground font-medium">
           <a href="#" className="hover:text-foreground transition-colors">Products</a>
           <a href="#" className="hover:text-foreground transition-colors">Resources</a>
           <a href="#" className="hover:text-foreground transition-colors">Pricing</a>
         </nav>
-        <div className="relative">
-          <button
-            id="settings-btn"
-            onClick={() => setSettingsOpen((o) => !o)}
-            aria-label="Settings"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground hover:bg-black/5 transition-colors"
+        <div className="flex items-center gap-2 sm:border-l sm:border-border sm:pl-4 sm:ml-2">
+          <AccessibilityMenu />
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full bg-background border-border hover:bg-muted shadow-sm"
+            onClick={toggleTheme}
+            aria-label="Toggle Dark Mode"
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-          </button>
-          {settingsOpen && (
-            <div id="settings-panel" className="absolute right-0 top-11 w-48 rounded-xl bg-card border shadow-lg p-3 space-y-2 z-50">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Settings</p>
-              <div className="h-px bg-border" />
-              <div className="text-xs text-muted-foreground space-y-1">
-                <p>Data: Sample dataset</p>
-                <p>Version: 0.1.0</p>
-              </div>
-            </div>
-          )}
+            {isDark ? <Sun className="h-4 w-4 text-primary" /> : <Moon className="h-4 w-4 text-primary" />}
+          </Button>
         </div>
       </header>
 
@@ -438,33 +446,24 @@ export default function Home() {
       )}
 
       {/* ═══════ FOOTER ═══════ */}
-      <footer className="border-t border-border/50 mt-auto">
-        <div className="mx-auto max-w-5xl px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm font-medium">
-            <LogoMark size={14} />
-            Maple Margin
-          </div>
-          <nav className="hidden sm:flex items-center gap-6 text-xs text-muted-foreground">
-            {["Features", "Learn more", "Support", "Data Source"].map((l) => (
-              <a key={l} href="#" className="hover:text-foreground transition-colors">{l}</a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
-              </svg>
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />
-              </svg>
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
+      <footer className="border-t border-border mt-auto w-full bg-card pt-10 pb-10 px-6 sm:px-12 relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-8 text-sm font-medium flex-wrap justify-center">
+              <span className="font-bold flex items-center gap-2">
+                <Settings className="w-5 h-5 text-foreground" /> Maple Margin
+              </span>
+              <a href="#" className="hover:text-primary transition-colors">Features</a>
+              <a href="#" className="hover:text-primary transition-colors">Learn more</a>
+              <a href="#" className="hover:text-primary transition-colors">Support</a>
+              <a href="#" className="hover:text-primary transition-colors">Data Source</a>
+            </div>
+
+            <div className="flex items-center gap-4 text-foreground/60">
+              <a href="#" className="hover:text-primary transition-colors"><Instagram className="w-5 h-5" /></a>
+              <a href="#" className="hover:text-primary transition-colors"><Linkedin className="w-5 h-5" /></a>
+              <a href="#" className="hover:text-primary transition-colors"><Twitter className="w-5 h-5" /></a>
+            </div>
           </div>
         </div>
       </footer>
