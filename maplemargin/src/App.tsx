@@ -8,6 +8,8 @@ import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
 import { cld, uploadPreset } from './cloudinary/config';
 import { UploadWidget } from './cloudinary/UploadWidget';
 import type { CloudinaryUploadResult } from './cloudinary/UploadWidget';
+import { ReactLenis } from 'lenis/react';
+import NodeNetwork from './components/NodeNetwork';
 import './App.css';
 
 const hasUploadPreset = Boolean(uploadPreset);
@@ -40,7 +42,7 @@ function App() {
   const copyPrompt = (text: string, id: number) => {
     void navigator.clipboard.writeText(text).then(() => {
       setClickedIds((prev) => new Set(prev).add(id));
-      setTimeout(() => setClickedIds( (prev) => {
+      setTimeout(() => setClickedIds((prev) => {
         const next = new Set(prev);
         next.delete(id);
         return next;
@@ -50,7 +52,7 @@ function App() {
 
   // Display uploaded image if available, otherwise show a sample
   const imageId = uploadedImageId || 'samples/people/bicycle';
-  
+
   const displayImage = cld
     .image(imageId)
     .resize(fill().width(600).height(400).gravity(autoGravity()))
@@ -58,55 +60,59 @@ function App() {
     .delivery(quality(autoQuality()));
 
   return (
-    <div className="app">
-      <main className="main-content">
-        <h1>Cloudinary React Starter Kit</h1>
-        <p>This is a ready-to-use development environment with Cloudinary integration.</p>
-        
-        {hasUploadPreset && (
-          <div className="upload-section">
-            <h2>Upload an Image</h2>
-            <UploadWidget
-              onUploadSuccess={handleUploadSuccess}
-              onUploadError={handleUploadError}
-              buttonText="Upload Image"
-            />
-          </div>
-        )}
+    <ReactLenis root>
+      <div className="app relative min-h-screen">
+        <NodeNetwork />
+        <main className="main-content relative z-10 w-full min-h-[200vh]">
 
-        <div className="image-section">
-          <h2>Display Image</h2>
-          <AdvancedImage
-            cldImg={displayImage}
-            plugins={[placeholder({ mode: 'blur' }), lazyload()]}
-            alt={uploadedImageId ? 'Your uploaded image' : 'Sample image'}
-            className="display-image"
-          />
-          {uploadedImageId && (
-            <p className="image-info">Public ID: {uploadedImageId}</p>
+          <h1>Cloudinary React Starter Kit</h1>
+          <p>This is a ready-to-use development environment with Cloudinary integration.</p>
+
+          {hasUploadPreset && (
+            <div className="upload-section">
+              <h2>Upload an Image</h2>
+              <UploadWidget
+                onUploadSuccess={handleUploadSuccess}
+                onUploadError={handleUploadError}
+                buttonText="Upload Image"
+              />
+            </div>
           )}
-        </div>
 
-        <div className="ai-prompts-section">
-          <h2>🤖 Try Asking Your AI Assistant</h2>
-          <p className="prompts-intro">
-            <strong>Copy and paste</strong> one of these prompts into your AI assistant:
-          </p>
-          <ul className="prompts-list">
-            {(hasUploadPreset ? PROMPTS_WITH_UPLOAD : PROMPTS_WITHOUT_UPLOAD).map((text, i) => (
-              <li
-                key={i}
-                onClick={() => copyPrompt(text, i)}
-                title="Click to copy"
-                className={clickedIds.has(i) ? 'clicked' : ''}
-              >
-                {text}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </main>
-    </div>
+          <div className="image-section">
+            <h2>Display Image</h2>
+            <AdvancedImage
+              cldImg={displayImage}
+              plugins={[placeholder({ mode: 'blur' }), lazyload()]}
+              alt={uploadedImageId ? 'Your uploaded image' : 'Sample image'}
+              className="display-image"
+            />
+            {uploadedImageId && (
+              <p className="image-info">Public ID: {uploadedImageId}</p>
+            )}
+          </div>
+
+          <div className="ai-prompts-section">
+            <h2>🤖 Try Asking Your AI Assistant</h2>
+            <p className="prompts-intro">
+              <strong>Copy and paste</strong> one of these prompts into your AI assistant:
+            </p>
+            <ul className="prompts-list">
+              {(hasUploadPreset ? PROMPTS_WITH_UPLOAD : PROMPTS_WITHOUT_UPLOAD).map((text, i) => (
+                <li
+                  key={i}
+                  onClick={() => copyPrompt(text, i)}
+                  title="Click to copy"
+                  className={clickedIds.has(i) ? 'clicked' : ''}
+                >
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </main>
+      </div>
+    </ReactLenis>
   );
 }
 
