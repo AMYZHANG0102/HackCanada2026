@@ -15,6 +15,10 @@ import { cn } from "@/lib/utils";
 import AccessibilityMenu from "@/components/accessibility-menu";
 import { Button } from "@/components/ui/button";
 import { Settings, Instagram, Linkedin, Twitter, Moon, Sun } from "lucide-react";
+import { SummaryStats } from "@/components/summary-stats";
+import { CanadaImpactPanel } from "@/components/canada-impact-panel";
+import { PriceEffectsChart } from "@/components/price-effects-chart";
+import { TradeChangesTable } from "@/components/trade-changes-table";
 
 /* Lazy-load the map (uses browser APIs, no SSR) */
 const TradeMap = dynamic(
@@ -248,202 +252,61 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ═══════ EMPTY STATE ═══════ */}
-      {!product && (
-        <div className="flex-1 flex items-center justify-center px-6">
-          <div className="text-center max-w-sm">
-            <p className="text-4xl mb-4">🍁</p>
-            <h2 className="text-lg font-semibold mb-1">How do US tariffs affect Canada?</h2>
-            <p className="text-sm text-muted-foreground">
-              Choose a Canadian export sector above to simulate how US tariffs imposed under 2025–2026 legislation ripple through the supply chain — from Canadian producers to US consumers.
-            </p>
-          </div>
-        </div>
-      )}
+      {/* ═══════ DASHBOARD CONTENT ═══════ */}
+      <main className="flex-1 px-4 sm:px-8 py-8 mx-auto w-full max-w-6xl space-y-8 animate-fade-up">
+        
+        {/* 1. Summary Statistics */}
+        <section>
+          <SummaryStats />
+        </section>
 
-      {/* ═══════ RESULTS ═══════ */}
-      {product && result && (
-        <main className="flex-1 px-8 py-8 mx-auto w-full max-w-5xl space-y-8 animate-fade-up">
-
-          {/* ── Stat row ── */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {[
-              { label: "Import Cost",   val: `+${result.stageImpacts[0]?.priceIncreasePercent ?? 0}%`, p: result.stageImpacts[0]?.priceIncreasePercent ?? 0 },
-              { label: "Manufacturing", val: `+${result.stageImpacts[1]?.priceIncreasePercent ?? 0}%`, p: result.stageImpacts[1]?.priceIncreasePercent ?? 0 },
-              { label: "Retail Price",  val: `+${result.totalRetailIncrease}%`,  p: result.totalRetailIncrease },
-              { label: "Trade Volume",  val: `-${result.tradeVolumeReduction}%`, p: 3, override: "text-impact-mid" },
-            ].map((s) => (
-              <Card key={s.label} className="shadow-none">
-                <CardContent className="p-4 text-center space-y-1.5">
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{s.label}</p>
-                  <p className={cn("text-2xl font-bold font-mono tabular-nums", s.override ?? impactColor(s.p))}>
-                    {s.val}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* ── Canada context callout ── */}
-          {"canadaContext" in product && (
-            <div className="flex gap-3 rounded-xl bg-[oklch(0.88_0.06_152/0.4)] border border-[oklch(0.72_0.08_152/0.5)] px-4 py-3">
-              <span className="text-lg shrink-0">🍁</span>
-              <p className="text-sm text-foreground/85 leading-relaxed">
-                {(product as typeof product & { canadaContext: string }).canadaContext}
-              </p>
-            </div>
-          )}
-
-          {/* ── Trade Map ── */}
-          <section className="space-y-3">
+        {/* 2. Top-Level Overview: Map & Price Effects */}
+        <div className="grid lg:grid-cols-2 gap-6">
+          <section className="space-y-3 flex flex-col h-full">
             <h3 className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
               Trade Flow Map
             </h3>
-            <Card className="shadow-none overflow-hidden">
-              <CardContent className="p-0">
+            <Card className="shadow-none overflow-hidden flex-1 border border-border">
+              <CardContent className="p-0 h-[300px] sm:h-[400px]">
+                {/* Simplified Trade Map for Dashboard representation */}
                 <TradeMap
-                  exporterCountry={country}
-                  allExporters={product.topExporters}
+                  exporterCountry={country || "China"}
+                  allExporters={[
+                    { country: "China", baseTariff: 25, sharePercent: 25 },
+                    { country: "Vietnam", baseTariff: 5, sharePercent: 12 },
+                    { country: "Mexico", baseTariff: 0, sharePercent: 15 }
+                  ]}
                   tariffRate={tariffRate}
                 />
               </CardContent>
             </Card>
           </section>
 
-          {/* ── Two-col: stages + flow ── */}
-          <div className="grid gap-10 lg:grid-cols-2">
+          <section className="space-y-3 flex flex-col h-full">
+            <h3 className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground whitespace-nowrap">
+              Price / Cost Effects
+            </h3>
+            <div className="flex-1">
+              <PriceEffectsChart />
+            </div>
+          </section>
+        </div>
 
-            {/* Price Impact by Stage */}
-            <section className="space-y-3">
-              <h3 className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                Price Impact by Stage
-              </h3>
-              {result.stageImpacts.map((s, i) => (
-                <Card key={s.stageName} className={cn("relative overflow-hidden shadow-none border", impactBg(s.priceIncreasePercent))}>
-                  <CardContent className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/80 text-[10px] font-bold text-foreground border border-border/30">
-                        {i + 1}
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold leading-snug">{s.stageName}</p>
-                        <p className="text-[11px] text-muted-foreground">{s.description}</p>
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0 ml-3">
-                      <p className={cn("text-xl font-bold font-mono tabular-nums", impactColor(s.priceIncreasePercent))}>
-                        +{s.priceIncreasePercent}%
-                      </p>
-                      <p className="text-[10px] text-muted-foreground font-mono">+${s.absoluteIncrease.toLocaleString()}</p>
-                    </div>
-                  </CardContent>
-                  <div className="px-4 pb-4">
-                    <div className="w-full h-1.5 rounded-full bg-black/5 overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all duration-700"
-                        style={{ width: `${Math.min(s.priceIncreasePercent * 8, 100)}%`, backgroundColor: impactBarColor(s.priceIncreasePercent) }}
-                      />
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </section>
+        {/* 3. Detailed Data Tables & Sector Impacts */}
+        <div className="grid lg:grid-cols-2 gap-6 items-start">
+          <section className="space-y-4">
+            <CanadaImpactPanel />
+          </section>
 
-            {/* Supply Chain Flow */}
-            <section className="space-y-3">
-              <h3 className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                Supply Chain Flow
-              </h3>
-              <div className="flex flex-col items-center">
-                <Card className="w-full shadow-none">
-                  <CardContent className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-xl">{result.countryExporter?.flag || "🌍"}</span>
-                      <div>
-                        <p className="text-sm font-semibold">{country} Export</p>
-                        <p className="text-[11px] text-muted-foreground">{result.countryExporter?.sharePercent || 0}% of imports</p>
-                      </div>
-                    </div>
-                    {tariffRate > 0 && (
-                      <Badge variant="outline" className="font-mono text-[10px] bg-impact-high/8 border-impact-high/25 text-impact-high">
-                        +{tariffRate}% tariff
-                      </Badge>
-                    )}
-                  </CardContent>
-                </Card>
+          <section className="space-y-3">
+            <h3 className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+              Direct Trade Changes
+            </h3>
+            <TradeChangesTable />
+          </section>
+        </div>
 
-                {result.stageImpacts.map((s) => (
-                  <div key={s.stageName} className="flex flex-col items-center w-full">
-                    <div className={cn("w-px h-6", tariffRate > 0 ? connectorCls(s.priceIncreasePercent) : "bg-border")} />
-                    <Card className="w-full shadow-none">
-                      <CardContent className="flex items-center justify-between p-3 px-4">
-                        <p className="text-sm">{s.stageName}</p>
-                        <p className={cn("text-sm font-semibold font-mono", tariffRate > 0 ? impactColor(s.priceIncreasePercent) : "text-muted-foreground")}>
-                          {tariffRate > 0 ? `+${s.priceIncreasePercent}%` : "—"}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-
-                <div className={cn("w-px h-6", tariffRate > 0 ? "flow-connector" : "bg-border")} />
-                <Card className="w-full shadow-none bg-sage/40 border-sage-dark/50">
-                  <CardContent className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-xl">🛒</span>
-                      <div>
-                        <p className="text-sm font-semibold">Consumer</p>
-                        <p className="text-[11px] text-muted-foreground">End price</p>
-                      </div>
-                    </div>
-                    <p className="text-lg font-bold font-mono tabular-nums">${result.newBasePrice.toLocaleString()}</p>
-                  </CardContent>
-                </Card>
-              </div>
-            </section>
-          </div>
-
-          {/* ── Alternative Suppliers ── */}
-          {tariffRate > 0 && alts.length > 0 && (
-            <section className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="h-px flex-1 bg-border" />
-                <h3 className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground whitespace-nowrap">Alternative Suppliers</h3>
-                <div className="h-px flex-1 bg-border" />
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {alts.map((a, i) => (
-                  <Card key={a.country} className="shadow-none hover:border-sage-dark/60 transition-colors">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg">{a.flag}</span>
-                          <span className="font-semibold text-sm">{a.country}</span>
-                        </div>
-                        {i === 0 && (
-                          <Badge variant="outline" className="text-[9px] bg-sage/60 border-sage-dark text-ink">Best</Badge>
-                        )}
-                      </div>
-                      <div className="grid grid-cols-3 gap-1 text-center">
-                        {[
-                          { l: "Tariff", v: `${a.currentTariff}%` },
-                          { l: "Saves",  v: `-${a.tariffDifference}%` },
-                          { l: "Share",  v: `${a.currentShare}%` },
-                        ].map((x) => (
-                          <div key={x.l}>
-                            <p className="text-[9px] uppercase tracking-wider text-muted-foreground">{x.l}</p>
-                            <p className="text-sm font-semibold font-mono text-impact-low">{x.v}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          )}
-        </main>
-      )}
+      </main>
 
       {/* ═══════ FOOTER ═══════ */}
       <footer className="border-t border-border mt-auto w-full bg-card pt-10 pb-10 px-6 sm:px-12 relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
