@@ -24,8 +24,8 @@ export async function speakText(text: string): Promise<void> {
       throw new Error("No ElevenLabs API key found. Falling back to native browser speech.");
     }
 
-    // Default high-quality voice (Rachel)
-    const voiceId = "21m00Tcm4TlvDq8ikWAM";
+    // Default high-quality voice
+    const voiceId = "RiK8PTtVIeKKoFFTk9fg";
     const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
       method: "POST",
       headers: {
