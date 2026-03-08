@@ -11,7 +11,6 @@ Maple Margin turns complex economic policies into actionable, visual insights. I
 Our platform allows users to:
 - **Simulate Scenarios**: Select key Canadian export sectors, adjust the tariff slider, and watch the economic impact unfold.
 - **Visualize the Ripple**: Explore dynamic charts showing price escalations, supply chain disruptions, and shifting global trade routes.
-- **AI-Powered Briefings**: Paste a news article link into our "Storytelling" concept page to instantly synthesize complex economic news into an interactive, ChatSlide-style presentation.
 - **Accessible Insights**: Highlight any text on the page and use our premium AI-driven "Highlight Reader" to have the insights read aloud.
 
 ## 🛠️ Technologies Used
@@ -23,7 +22,6 @@ Our platform allows users to:
 - **AI & Integrations**:
   - **Antigravity (by Google DeepMind)**: Served as the primary AI pair programmer—rapidly prototyping the UI, generating complex Recharts visualizations, modeling the mock data, and integrating third-party APIs like ElevenLabs natively into the codebase.
   - **[ElevenLabs API](https://elevenlabs.io/)** for lifelike Text-to-Speech accessibility.
-  - **[OpenAI API](https://openai.com/)** & **Cheerio** (used for the conceptual article analysis engine).
 
 ## 👥 Meet the Team & Contributions
 
@@ -49,9 +47,6 @@ Create a `.env.local` file in the `frontend` directory and add your API keys:
 ```env
 # Required for the Highlight Reader accessibility feature
 NEXT_PUBLIC_ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
-
-# Required for the AI Article Analysis (Concept feature)
-OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 **4. Run the development server**
@@ -62,7 +57,6 @@ npm run dev
 **5. Explore the app**
 Open [http://localhost:3000](http://localhost:3000) in your browser. 
 - Try adjusting the sliders in the core visualizer to see trade effects.
-- Check out `/concept` to see the AI Storytelling interactive presentation.
 - Use the **Accessibility Menu** in the header to enable the Highlight Reader, then select any text!
 
 ## 🧠 How It Works Under the Hood
