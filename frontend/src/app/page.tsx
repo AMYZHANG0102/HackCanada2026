@@ -101,11 +101,11 @@ export default function Home() {
           {/* 3. Feature Section: Border to Basket */}
           <section className="w-full max-w-6xl py-16 grid md:grid-cols-2 gap-12 sm:gap-24 items-center">
             <div className="flex flex-col items-start gap-6 order-2 md:order-1">
-              <h2 className="text-3xl sm:text-5xl font-bold leading-tight">
+              <h3 className="text-3xl sm:text-4xl font-bold leading-tight">
                 From Border to Basket:
                 <br />
                 Tracking every cent
-              </h2>
+              </h3>
               <p className="text-foreground/70 leading-relaxed max-w-md">
                 Our Map Engineering tool doesn't just show tariffs; it
                 calculates the consumer impact.
@@ -158,9 +158,9 @@ export default function Home() {
               />
             </div>
             <div className="flex flex-col items-start gap-6">
-              <h2 className="text-3xl sm:text-5xl font-bold leading-tight">
+              <h3 className="text-2xl sm:text-4xl font-bold leading-tight">
                 Precision Intelligence for an Unpredictable Era
-              </h2>
+              </h3>
               <p className="text-foreground/70 leading-relaxed max-w-md">
                 In a world where a Supreme Court ruling can invalidate billions
                 in duties overnight, you need more than a spreadsheet.
