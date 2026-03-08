@@ -14,9 +14,6 @@ export default function Home() {
   useEffect(() => {
     if (document.documentElement.classList.contains('dark')) {
       setIsDark(true);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark');
-      setIsDark(true);
     }
   }, []);
 

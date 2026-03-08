@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { ReactLenis } from 'lenis/react';
 import { products } from "@/lib/products";
 import {
   simulateTariff,
@@ -113,9 +114,6 @@ export default function Home() {
   useEffect(() => {
     if (document.documentElement.classList.contains('dark')) {
       setIsDark(true);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark');
-      setIsDark(true);
     }
   }, []);
 
@@ -125,7 +123,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <ReactLenis root>
+      <div className="min-h-screen flex flex-col bg-background">
 
       {/* ═══════ HEADER ═══════ */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/90 backdrop-blur-md px-4 sm:px-8 py-3.5">
@@ -368,5 +367,6 @@ export default function Home() {
         </div>
       </footer>
     </div>
+    </ReactLenis>
   );
 }
