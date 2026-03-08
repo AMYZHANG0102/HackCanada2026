@@ -72,6 +72,18 @@ export function generateDashboardData(
       related1 = "Computers";
       related2 = "Smartphones";
       break;
+    case "Ketchup & Condiments":
+      related1 = "Restaurants & Fast Food";
+      related2 = "Groceries";
+      break;
+    case "Video Games":
+      related1 = "Entertainment";
+      related2 = "Console Hardware";
+      break;
+    case "Books & Publishing":
+      related1 = "Education";
+      related2 = "Retail Bookstores";
+      break;
   }
 
   return {

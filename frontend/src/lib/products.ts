@@ -175,6 +175,73 @@ export const products: Product[] = [
       { name: "US Food Production",        description: "Flour, cooking oil, animal feed",            costAbsorption: 0.05 },
     ],
   },
+  {
+    id: "ketchup",
+    name: "Ketchup & Condiments",
+    icon: "🍅",
+    basePrice: 4.5,
+    unit: "per bottle",
+    importDependency: 0.15,
+    description: "Tomato ketchup and popular table condiments.",
+    canadaContext:
+      "A classic Canadian trade dispute artifact. Following US tariffs on steel/aluminum, Canada retaliated with tariffs on US ketchup. However, Canada also exports specialized food processing products.",
+    topExporters: [
+      { country: "Canada", flag: "🇨🇦", sharePercent: 12, baseTariff: 25, isoCode: "124" },
+      { country: "Mexico", flag: "🇲🇽", sharePercent: 45, baseTariff: 0, isoCode: "484" },
+      { country: "Italy", flag: "🇮🇹", sharePercent: 18, baseTariff: 0, isoCode: "380" },
+    ],
+    supplyChain: [
+      { name: "Tomato Farming", description: "Leamington, ON greenhouses", costAbsorption: 1.0 },
+      { name: "Processing & Bottling", description: "Food manufacturing facilities", costAbsorption: 0.4 },
+      { name: "Distribution", description: "Grocery supply chains", costAbsorption: 0.15 },
+      { name: "US Retail", description: "Supermarkets, restaurants", costAbsorption: 0.05 },
+    ],
+  },
+  {
+    id: "video_games",
+    name: "Video Games",
+    icon: "🎮",
+    basePrice: 70,
+    unit: "per game unit",
+    importDependency: 0.85,
+    description: "Digital and physical video game software and development services.",
+    canadaContext:
+      "Canada (Montreal, Toronto, Vancouver) is a global hub for AAA game development (Ubisoft, EA). Tariffs on digital goods or physical media immediately impact profit margins for top-tier studios.",
+    topExporters: [
+      { country: "Canada", flag: "🇨🇦", sharePercent: 22, baseTariff: 25, isoCode: "124" },
+      { country: "Japan", flag: "🇯🇵", sharePercent: 35, baseTariff: 0, isoCode: "392" },
+      { country: "France", flag: "🇫🇷", sharePercent: 15, baseTariff: 0, isoCode: "250" },
+      { country: "United Kingdom", flag: "🇬🇧", sharePercent: 10, baseTariff: 0, isoCode: "826" },
+    ],
+    supplyChain: [
+      { name: "Studio Development", description: "Montreal, Vancouver hubs", costAbsorption: 1.0 },
+      { name: "Publishing", description: "Global marketing & distribution", costAbsorption: 0.2 },
+      { name: "Physical Manufacturing", description: "Disc printing (if applicable)", costAbsorption: 0.05 },
+      { name: "US Retail / Digital", description: "Console storefronts, retail chains", costAbsorption: 0.05 },
+    ],
+  },
+  {
+    id: "books",
+    name: "Books & Publishing",
+    icon: "📚",
+    basePrice: 20,
+    unit: "per book",
+    importDependency: 0.35,
+    description: "Physical books, magazines, and printed educational materials.",
+    canadaContext:
+      "Canada has a robust printing and publishing sector that exports finished books and paper products to the US. Tariffs historically impacted uncoated groundwood paper used in US newsprint.",
+    topExporters: [
+      { country: "Canada", flag: "🇨🇦", sharePercent: 25, baseTariff: 25, isoCode: "124" },
+      { country: "China", flag: "🇨🇳", sharePercent: 40, baseTariff: 10, isoCode: "156" },
+      { country: "United Kingdom", flag: "🇬🇧", sharePercent: 15, baseTariff: 0, isoCode: "826" },
+    ],
+    supplyChain: [
+      { name: "Pulp & Paper", description: "Quebec & BC mills", costAbsorption: 1.0 },
+      { name: "Printing Presses", description: "Commercial book printers", costAbsorption: 0.4 },
+      { name: "Logistics", description: "Freight to US warehouses", costAbsorption: 0.15 },
+      { name: "US Retailers", description: "Bookstores, Amazon, schools", costAbsorption: 0.05 },
+    ],
+  },
 ];
 
 export function getProduct(id: string): Product | undefined {
