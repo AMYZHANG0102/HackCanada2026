@@ -8,10 +8,11 @@ export function SummaryStats({ data }: { data: SummaryData }) {
   const isTradeNegative = data.total_trade_change_percent < 0;
   const isPricePositive = data.total_price_change_percent > 0;
 
-  // Semantic: negative = red (bad news), positive = green (good news)
-  // High-contrast colors readable on both dark and light card backgrounds
-  const negClr = "text-[#FF6B70]";  // bright red  ~5.8:1 on dark
-  const posClr = "text-[#4ADE80]";  // bright green ~8.5:1 on dark
+  // Color thresholds: above 1 = green (good/positive), below 0 = red (bad/negative)
+  const getClr = (val: number) =>
+    val > 1 ? "text-[#4ADE80]" : val < 0 ? "text-[#FF6B70]" : "text-muted-foreground";
+  const getIconClr = (val: number) =>
+    val > 1 ? "text-[#4ADE80]" : val < 0 ? "text-[#FF6B70]" : "text-muted-foreground";
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -20,11 +21,11 @@ export function SummaryStats({ data }: { data: SummaryData }) {
           <div className="flex flex-row items-center justify-between space-y-0 text-sm">
             <h3 className="tracking-tight text-muted-foreground font-medium uppercase text-xs">Total Trade Change</h3>
             {isTradeNegative
-              ? <TrendingDown className={`h-4 w-4 ${negClr}`} />
-              : <TrendingUp   className={`h-4 w-4 ${posClr}`} />}
+              ? <TrendingDown className={`h-4 w-4 ${getIconClr(data.total_trade_change_percent)}`} />
+              : <TrendingUp   className={`h-4 w-4 ${getIconClr(data.total_trade_change_percent)}`} />}
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className={`text-3xl font-bold font-mono tracking-tighter ${isTradeNegative ? negClr : posClr}`}>
+            <span className={`text-3xl font-bold font-mono tracking-tighter ${getClr(data.total_trade_change_percent)}`}>
               {data.total_trade_change_percent > 0 ? "+" : ""}{data.total_trade_change_percent}%
             </span>
           </div>
@@ -37,11 +38,11 @@ export function SummaryStats({ data }: { data: SummaryData }) {
           <div className="flex flex-row items-center justify-between space-y-0 text-sm">
             <h3 className="tracking-tight text-muted-foreground font-medium uppercase text-xs">Average Price Increase</h3>
             {isPricePositive
-              ? <TrendingUp   className={`h-4 w-4 ${negClr}`} />
-              : <TrendingDown className={`h-4 w-4 ${posClr}`} />}
+              ? <TrendingUp   className={`h-4 w-4 ${getIconClr(data.total_price_change_percent)}`} />
+              : <TrendingDown className={`h-4 w-4 ${getIconClr(data.total_price_change_percent)}`} />}
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className={`text-3xl font-bold font-mono tracking-tighter ${isPricePositive ? negClr : posClr}`}>
+            <span className={`text-3xl font-bold font-mono tracking-tighter ${getClr(data.total_price_change_percent)}`}>
               {data.total_price_change_percent > 0 ? "+" : ""}{data.total_price_change_percent}%
             </span>
           </div>

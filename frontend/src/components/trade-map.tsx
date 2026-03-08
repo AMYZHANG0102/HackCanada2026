@@ -160,7 +160,7 @@ export function TradeMap({ exporterCountry, allExporters, tariffRate }: TradeMap
 
       {/* Tariff badge */}
       {tariffRate > 0 && (
-        <div className="absolute top-3 right-3 z-10 bg-impact-high/10 border border-impact-high/25 rounded-lg px-2.5 py-1.5 text-[11px] font-mono font-semibold text-impact-high">
+        <div className="absolute top-3 right-3 z-10 bg-impact-high/80 border border-impact-high/90 rounded-lg px-2.5 py-1.5 text-[11px] font-mono font-semibold text-white">
           +{tariffRate}% tariff to USA
         </div>
       )}

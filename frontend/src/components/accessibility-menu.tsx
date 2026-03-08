@@ -45,12 +45,12 @@ export default function AccessibilityMenu() {
         <div className="relative" ref={menuRef}>
             <Button
                 variant="outline"
-                className="rounded-full bg-background border-border hover:bg-muted flex items-center gap-2 px-4 shadow-sm"
+                className="rounded-full bg-background border-border hover:bg-muted flex items-center gap-1.5 px-3 shadow-sm"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Accessibility Menu"
             >
-                <Accessibility className="w-4 h-4 text-primary" />
-                <span className="hidden sm:inline-block font-medium">Accessibility</span>
+                <Accessibility className="w-5 h-5 text-primary" />
+                <span className="hidden sm:inline-block text-base font-semibold">Accessibility</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </Button>
 

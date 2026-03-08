@@ -127,7 +127,7 @@ export default function Home() {
       <div className="min-h-screen flex flex-col bg-background">
 
       {/* ═══════ HEADER ═══════ */}
-      <header className="sticky top-0 z-40 grid grid-cols-3 items-center border-b border-border/60 bg-background/90 backdrop-blur-md px-4 sm:px-8 py-3.5">
+      <header className="sticky top-0 z-40 grid grid-cols-3 items-center border-b border-border/60 bg-background/90 backdrop-blur-md px-4 sm:px-8 py-2">
         {/* Left: Logo */}
         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
           <img
@@ -137,7 +137,7 @@ export default function Home() {
           />
         </Link>
         {/* Center: Nav links */}
-        <nav className="hidden md:flex items-center justify-center gap-1 text-sm text-muted-foreground font-medium">
+        <nav className="hidden md:flex items-center justify-center gap-1 text-lg text-muted-foreground font-medium">
           <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Products</a>
           <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Resources</a>
           <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Pricing</a>
@@ -159,7 +159,7 @@ export default function Home() {
       </header>
 
       {/* ═══════ SEARCH + FILTERS ═══════ */}
-      <div className="border-b border-border/50 bg-background/60 px-8 py-5">
+      <div className="border-b border-border/50 bg-background/60 px-8 py-3">
         <div className="mx-auto max-w-5xl space-y-4">
 
           {/* ── Search bar ── */}
@@ -197,7 +197,7 @@ export default function Home() {
                   key={p.id}
                   onClick={() => handleProduct(p.id)}
                   className={cn(
-                    "flex items-center gap-1.5 h-8 rounded-lg border px-3 text-xs font-medium transition-all",
+                    "flex items-center gap-1.5 h-10 rounded-lg border px-3 text-[16px] font-medium transition-all",
                     selectedId === p.id
                       ? "bg-ink text-white border-ink"
                       : "bg-card border-border text-foreground hover:border-border/80 hover:bg-sage/40"
