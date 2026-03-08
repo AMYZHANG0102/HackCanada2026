@@ -10,8 +10,10 @@ import Link from "next/link";
 
 export default function Home() {
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (document.documentElement.classList.contains("dark")) {
       setIsDark(true);
     }
@@ -114,16 +116,29 @@ export default function Home() {
             </div>
             {/* Visualizer Image/Graphic placeholder */}
             <div className="rounded-[2rem] bg-card aspect-[4/3] w-full border border-border relative overflow-hidden order-1 md:order-2 z-10 shadow-sm flex items-center justify-center">
-              <img
-                src="/Canada_blank_map.svg.png"
-                alt="Maple Margin Visualizer"
-                suppressHydrationWarning={true}
-                className="w-full h-full object-contain p-8 transition-all duration-500
-                  /* Light Mode Settings */
-                  brightness-100 contrast-100 
-                  /* Dark Mode Settings */
-                  dark:brightness-150 dark:contrast-125 dark:invert"
-              />
+              <div className="rounded-[2rem] bg-card aspect-[4/3] w-full border border-border relative overflow-hidden order-1 md:order-2 z-10 shadow-sm flex items-center justify-center">
+                {mounted && isDark ? (
+                  /* DARK MODE: Show the original image as usual */
+                  <img
+                    src="/Canada_blank_map.svg.png"
+                    alt="Maple Margin Visualizer"
+                    className="w-full h-full object-contain p-8 brightness-110 contrast-110"
+                  />
+                ) : (
+                  /* LIGHT MODE: Use the SVG as a mask to apply #1D3557 */
+                  <div
+                    className="w-full h-full p-8"
+                    style={{
+                      backgroundColor: "#1D3557",
+                      maskImage: "url('/Canada_blank_map.svg.png')",
+                      WebkitMaskImage: "url('/Canada_blank_map.svg.png')", // For Safari support
+                      maskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      maskSize: "contain",
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </section>
 
@@ -135,7 +150,11 @@ export default function Home() {
                 src="/icon-with-bar-chart-and-upward-arrow.png"
                 alt="Maple Margin Visualizer"
                 suppressHydrationWarning={true}
-                className="w-full h-full object-contain p-8 opacity-50 brightness-90 transition-all duration-500"
+                className="w-full h-full object-contain p-8 transition-all duration-500
+                          /* Light mode: keeps your current look (image_4.png) */
+                          opacity-50 brightness-90 
+                          /* Dark mode: makes it pop (image_7.png) */
+                          dark:invert dark:brightness-150 dark:opacity-100"
               />
             </div>
             <div className="flex flex-col items-start gap-6">
