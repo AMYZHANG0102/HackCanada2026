@@ -21,6 +21,8 @@ import { SummaryStats } from "@/components/summary-stats";
 import { CanadaImpactPanel } from "@/components/canada-impact-panel";
 import { PriceEffectsChart } from "@/components/price-effects-chart";
 import { TradeChangesTable } from "@/components/trade-changes-table";
+import { AdvancedMetricsPanel } from "@/components/advanced-metrics-panel";
+import { QualitativeInsightsPanel } from "@/components/qualitative-insights-panel";
 
 /* Lazy-load the map (uses browser APIs, no SSR) */
 const TradeMap = dynamic(
@@ -314,6 +316,19 @@ export default function Home() {
             <TradeChangesTable data={dashboardData.tradeChanges.trade_changes} />
           </section>
         </div>
+
+        {/* 4. Advanced Data Insights */}
+        <section>
+          <AdvancedMetricsPanel 
+            advanced={dashboardData.advancedMetrics} 
+            action={dashboardData.actionMetrics} 
+          />
+        </section>
+
+        {/* 5. Qualitative Sector Story */}
+        <section>
+          <QualitativeInsightsPanel data={dashboardData.qualitativeData} />
+        </section>
 
       </main>
       ) : (
