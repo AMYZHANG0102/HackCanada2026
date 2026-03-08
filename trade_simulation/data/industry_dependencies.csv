@@ -1,0 +1,3 @@
+industry,upstream_input,required_percentage,supplier_countries
+automobiles,steel,0.15,CAN;USA;MEX
+semiconductors,rare_earth_elements,0.08,CHN;JPN;KOR
