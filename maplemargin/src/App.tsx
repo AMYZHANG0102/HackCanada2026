@@ -28,9 +28,9 @@ const PROMPTS_WITHOUT_UPLOAD = [
 
 // Prompts used for image generation/modification
 const IMAGE_PROMPTS = [
-  'Generate a 3d graph of the graph',
-  'Convert this graph into an interactive chart with labeled axes',
-  'Generate a heatmap visualization of the graph data',
+  'Transform this graph into a futuristic neon-style visualization',
+  'Convert this graph into a 3D holographic dashboard display',
+  'Turn this graph into a modern infographic illustration',
 ];
 
 function App() {
@@ -250,26 +250,6 @@ function App() {
               No generated image yet. Upload an image, choose a prompt, and click Generate.
             </p>
           )}
-        </div>
-
-        <div className="ai-prompts-section">
-          <h2>🤖 Try Asking Your AI Assistant</h2>
-          <p className="prompts-intro">
-            <strong>Copy and paste</strong> one of these prompts into your AI assistant:
-          </p>
-
-          <ul className="prompts-list">
-            {(hasUploadPreset ? PROMPTS_WITH_UPLOAD : PROMPTS_WITHOUT_UPLOAD).map((text, i) => (
-              <li
-                key={i}
-                onClick={() => copyPrompt(text, i)}
-                title="Click to copy"
-                className={clickedIds.has(i) ? 'clicked' : ''}
-              >
-                {text}
-              </li>
-            ))}
-          </ul>
         </div>
       </main>
     </div>
