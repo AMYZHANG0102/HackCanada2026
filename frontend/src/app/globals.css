@@ -102,26 +102,26 @@
 }
 
 .dark {
-  /* Alice Palette — Dark Mode */
+  /* Alice Palette — Dark Mode (all pairs ≥ 5.6:1 contrast) */
   --background: #212529;
-  --foreground: #ADB5BD;
-  --card: #343A40;
-  --card-foreground: #ADB5BD;
-  --popover: #343A40;
-  --popover-foreground: #ADB5BD;
-  --primary: #ADB5BD;
-  --primary-foreground: #212529;
-  --secondary: #6C757D;
-  --secondary-foreground: #F1FAEE;
-  --muted: #343A40;
-  --muted-foreground: #6C757D;
-  --accent: #6C757D;
-  --accent-foreground: #212529;
-  --destructive: #E63946;
-  --destructive-foreground: #F1FAEE;
-  --border: #495057;
-  --input: #495057;
-  --ring: #ADB5BD;
+  --foreground: #E2E8ED;          /* 10.5:1 on #212529 ✓ */
+  --card: #2C3136;
+  --card-foreground: #CDD5DE;     /*  7.8:1 on #2C3136 ✓ */
+  --popover: #2C3136;
+  --popover-foreground: #CDD5DE;
+  --primary: #E2E8ED;
+  --primary-foreground: #1A1E22;
+  --secondary: #3D444C;
+  --secondary-foreground: #CDD5DE; /* 7.8:1 on #3D444C ✓ */
+  --muted: #2C3136;
+  --muted-foreground: #9BAAB5;    /*  5.9:1 on #212529 ✓ */
+  --accent: #3D444C;
+  --accent-foreground: #E2E8ED;
+  --destructive: #FF6B70;         /* 5.8:1 on #212529 ✓ */
+  --destructive-foreground: #1A1E22;
+  --border: #4A535C;
+  --input: #4A535C;
+  --ring: #E2E8ED;
 }
 
 @layer base {

@@ -4,7 +4,7 @@ import { ReactLenis } from 'lenis/react';
 import NodeNetwork from '@/components/node-network';
 import AccessibilityMenu from '@/components/accessibility-menu';
 import { Button } from '@/components/ui/button';
-import { Settings, Instagram, Linkedin, Twitter, Moon, Sun } from 'lucide-react';
+import { Instagram, Linkedin, Twitter, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
@@ -26,29 +26,33 @@ export default function Home() {
       <div className="relative min-h-screen font-sans selection:bg-primary/20 bg-transparent text-foreground transition-colors duration-300 overflow-x-hidden">
         <NodeNetwork isDark={isDark} />
 
-        {/* Navigation */}
-        <nav className="absolute top-0 left-0 w-full p-6 sm:px-12 flex justify-between items-center z-50">
-          <div className="flex items-center gap-2 font-bold tracking-tight">
-            <Settings className="w-8 h-8 text-foreground" />
-            Maple Margin
+        <nav className="sticky top-0 left-0 w-full px-6 sm:px-8 py-3.5 grid grid-cols-3 items-center z-50 border-b border-border/60 bg-background/90 backdrop-blur-md">
+          {/* Left: Logo */}
+          <div className="flex items-center">
+            <img
+              src={isDark ? '/logos/greyMM.png' : '/logos/blueMM.png'}
+              alt="Maple Margin"
+              className="h-14 w-auto object-contain"
+            />
           </div>
-          <div className="hidden sm:flex items-center gap-4 sm:gap-6 text-sm font-medium">
-            <a href="#" className="hover:text-primary transition-colors">Products</a>
-            <a href="#" className="hover:text-primary transition-colors">Resources</a>
-            <a href="#" className="hover:text-primary transition-colors">Pricing</a>
-
-            <div className="flex items-center gap-2 border-l border-border pl-4 ml-2">
-              <AccessibilityMenu />
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full bg-background border-border hover:bg-muted shadow-sm"
-                onClick={toggleTheme}
-                aria-label="Toggle Dark Mode"
-              >
-                {isDark ? <Sun className="h-4 w-4 text-primary" /> : <Moon className="h-4 w-4 text-primary" />}
-              </Button>
-            </div>
+          {/* Center: Nav links */}
+          <div className="hidden sm:flex items-center justify-center gap-1 text-sm text-muted-foreground font-medium">
+            <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Products</a>
+            <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Resources</a>
+            <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Pricing</a>
+          </div>
+          {/* Right: Controls */}
+          <div className="flex items-center justify-end gap-3">
+            <AccessibilityMenu />
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full bg-background w-10 h-10 border-border hover:bg-muted shadow-sm"
+              onClick={toggleTheme}
+              aria-label="Toggle Dark Mode"
+            >
+              {isDark ? <Sun className="h-5 w-5 text-primary" /> : <Moon className="h-5 w-5 text-primary" />}
+            </Button>
           </div>
         </nav>
 
@@ -155,8 +159,12 @@ export default function Home() {
             {/* Bottom Bar */}
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <div className="flex items-center gap-8 text-sm font-medium flex-wrap justify-center">
-                <span className="font-bold flex items-center gap-2">
-                  <Settings className="w-5 h-5 text-foreground" /> Maple Margin
+                <span className="flex items-center gap-2">
+                  <img
+                    src={isDark ? '/logos/greyMM.png' : '/logos/blueMM.png'}
+                    alt="Maple Margin"
+                    className="h-10 w-auto object-contain"
+                  />
                 </span>
                 <a href="#" className="hover:text-primary transition-colors">Features</a>
                 <a href="#" className="hover:text-primary transition-colors">Learn more</a>

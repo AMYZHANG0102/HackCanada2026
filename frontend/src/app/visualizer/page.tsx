@@ -17,7 +17,7 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import AccessibilityMenu from "@/components/accessibility-menu";
 import { Button } from "@/components/ui/button";
-import { Settings, Instagram, Linkedin, Twitter, Contrast } from "lucide-react";
+import { Instagram, Linkedin, Twitter, Sun, Moon } from "lucide-react";
 import { SummaryStats } from "@/components/summary-stats";
 import { CanadaImpactPanel } from "@/components/canada-impact-panel";
 import { PriceEffectsChart } from "@/components/price-effects-chart";
@@ -127,27 +127,33 @@ export default function Home() {
       <div className="min-h-screen flex flex-col bg-background">
 
       {/* ═══════ HEADER ═══════ */}
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/90 backdrop-blur-md px-4 sm:px-8 py-3.5">
-        <Link href="/" className="flex items-center gap-2 font-bold tracking-tight hover:opacity-80 transition-opacity">
-          <Settings className="w-6 h-6 sm:w-8 sm:h-8 text-foreground" />
-          <span className="hidden sm:inline">Maple Margin</span>
+      <header className="sticky top-0 z-40 grid grid-cols-3 items-center border-b border-border/60 bg-background/90 backdrop-blur-md px-4 sm:px-8 py-3.5">
+        {/* Left: Logo */}
+        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <img
+            src={isDark ? '/logos/greyMM.png' : '/logos/blueMM.png'}
+            alt="Maple Margin"
+            className="h-14 w-auto object-contain"
+          />
         </Link>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground font-medium">
-          <a href="#" className="hover:text-foreground transition-colors">Products</a>
-          <a href="#" className="hover:text-foreground transition-colors">Resources</a>
-          <a href="#" className="hover:text-foreground transition-colors">Pricing</a>
+        {/* Center: Nav links */}
+        <nav className="hidden md:flex items-center justify-center gap-1 text-sm text-muted-foreground font-medium">
+          <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Products</a>
+          <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Resources</a>
+          <a href="#" className="px-4 py-2 rounded-lg hover:text-foreground hover:bg-muted/60 transition-colors">Pricing</a>
         </nav>
-        <div className="flex items-center gap-2 sm:border-l sm:border-border sm:pl-4 sm:ml-2">
+        {/* Right: Controls */}
+        <div className="flex items-center justify-end gap-3">
           <AccessibilityMenu />
           <Button
             variant="outline"
             size="icon"
-            className="rounded-full bg-background border-border hover:bg-muted shadow-sm transition-transform hover:scale-105"
+            className="rounded-full bg-background w-10 h-10 border-border hover:bg-muted shadow-sm transition-transform hover:scale-105"
             onClick={toggleTheme}
-            aria-label="Toggle High Contrast"
-            title="Toggle High Contrast"
+            aria-label="Toggle Dark Mode"
+            title="Toggle Dark Mode"
           >
-            <Contrast className={cn("h-4 w-4 text-primary transition-transform duration-300", isDark ? "rotate-90" : "rotate-0")} />
+            {isDark ? <Sun className="h-5 w-5 text-primary" /> : <Moon className="h-5 w-5 text-primary" />}
           </Button>
         </div>
       </header>
@@ -349,8 +355,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-8 text-sm font-medium flex-wrap justify-center">
-              <span className="font-bold flex items-center gap-2">
-                <Settings className="w-5 h-5 text-foreground" /> Maple Margin
+              <span className="flex items-center gap-2">
+                <img
+                  src={isDark ? '/logos/greyMM.png' : '/logos/blueMM.png'}
+                  alt="Maple Margin"
+                  className="h-10 w-auto object-contain"
+                />
               </span>
               <a href="#" className="hover:text-primary transition-colors">Features</a>
               <a href="#" className="hover:text-primary transition-colors">Learn more</a>
