@@ -24,19 +24,19 @@ export function PriceEffectsChart({ data }: { data: PriceEffect[] }) {
         <div className="h-[250px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted-foreground)/0.2)" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--muted-foreground)" strokeOpacity={0.2} />
               <XAxis 
                 dataKey="name" 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 12, fill: "var(--muted-foreground)" }}
                 dy={10}
               />
               <YAxis 
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(val) => `+${val}%`}
-                tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 12, fill: "var(--muted-foreground)" }}
               />
               <Tooltip 
                 cursor={{ fill: "transparent" }}

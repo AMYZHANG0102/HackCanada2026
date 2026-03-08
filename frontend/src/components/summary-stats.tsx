@@ -31,7 +31,7 @@ export function SummaryStats({ data }: { data: SummaryData }) {
 
       <Card className="shadow-none border border-border/50 bg-card">
         <CardContent className="p-6">
-          <div className="flex flex-row items-center justify-between space-y-0 text-full">
+          <div className="flex flex-row items-center justify-between space-y-0 text-sm">
             <h3 className="tracking-tight text-muted-foreground font-medium uppercase text-xs">Average Price Increase</h3>
             {isPricePositive ? (
               <TrendingUp className="h-4 w-4 text-impact-high" />

@@ -25,53 +25,20 @@ export default function AccessibilityMenu() {
         document.documentElement.style.fontSize = `${size}px`;
     };
 
-    const handleTTS = async () => {
-        if (isSpeaking) {
-            window.speechSynthesis.cancel();
-            setIsSpeaking(false);
-            return;
-        }
+    useEffect(() => {
+        const stored = localStorage.getItem("selection-reader-enabled");
+        setIsSpeaking(stored === "true");
+    }, []);
 
-        const textToRead = "Welcome to Maple Margin. Navigating the 2026 Tariff Shock in real time.";
-        setIsSpeaking(true);
-
-        try {
-            const apiKey = process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY;
-
-            if (!apiKey) {
-                throw new Error("No ElevenLabs API key found. Falling back to native browser speech.");
-            }
-
-            const voiceId = '21m00Tcm4TlvDq8ikWAM';
-            const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'audio/mpeg',
-                    'xi-api-key': apiKey,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    text: textToRead,
-                    model_id: 'eleven_monolingual_v1',
-                    voice_settings: { stability: 0.5, similarity_boost: 0.5 }
-                })
-            });
-
-            if (!response.ok) throw new Error("ElevenLabs API failed");
-
-            const blob = await response.blob();
-            const audioUrl = URL.createObjectURL(blob);
-            const audio = new Audio(audioUrl);
-
-            audio.onended = () => setIsSpeaking(false);
-            audio.play();
-
-        } catch (error) {
-            console.warn(error);
-            const utterance = new SpeechSynthesisUtterance(textToRead);
-            utterance.onend = () => setIsSpeaking(false);
-            window.speechSynthesis.speak(utterance);
-        }
+    const toggleSelectionReader = () => {
+        const newState = !isSpeaking;
+        setIsSpeaking(newState);
+        localStorage.setItem("selection-reader-enabled", String(newState));
+        
+        // Dispatch custom event for the SelectionReader component to listen to
+        window.dispatchEvent(new CustomEvent("toggle-selection-reader", { 
+            detail: { enabled: newState } 
+        }));
     };
 
     return (
@@ -125,19 +92,22 @@ export default function AccessibilityMenu() {
                     <div className="flex flex-col gap-3">
                         <div className="flex items-center gap-2 text-sm font-semibold text-foreground/80">
                             <Volume2 className="w-4 h-4" />
-                            <span>Screen Reader</span>
+                            <span>Highlight Reader</span>
                         </div>
                         <Button
                             variant={isSpeaking ? "destructive" : "default"}
-                            onClick={handleTTS}
+                            onClick={toggleSelectionReader}
                             className="w-full flex items-center justify-center gap-2"
                         >
                             {isSpeaking ? (
-                                <> <VolumeX className="w-4 h-4" /> Stop Reading </>
+                                <> <VolumeX className="w-4 h-4" /> Disable Reader </>
                             ) : (
-                                <> <Volume2 className="w-4 h-4" /> Read Page Context </>
+                                <> <Volume2 className="w-4 h-4" /> Enable Reader </>
                             )}
                         </Button>
+                        <p className="text-[10px] text-muted-foreground leading-tight px-1">
+                            When enabled, highlight any text on the page to hear it read aloud using AI.
+                        </p>
                     </div>
                 </div>
             )}
