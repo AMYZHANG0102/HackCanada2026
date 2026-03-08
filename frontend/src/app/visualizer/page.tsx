@@ -90,19 +90,23 @@ export default function Home() {
   return (
     <ReactLenis root>
       <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-200">
-        {/* ═══════ HEADER (Tighter Vertical Spacing) ═══════ */}
-        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur">
-          <div className="flex h-14 items-center px-6">
-            {/* Persistent Left Links (Pic 2 & 3 Request) */}
-            <div className="flex items-center gap-8 mr-auto">
-              <Link href="/" className="flex items-center gap-2">
+        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="flex h-20 items-center px-8 max-w-[1400px] mx-auto w-full">
+            {" "}
+            {/* Increased from h-14 to h-20 */}
+            <div className="flex items-center gap-10 mr-auto">
+              <Link
+                href="/"
+                className="flex items-center transition-opacity hover:opacity-80"
+              >
                 <img
                   src={isDark ? "/logos/greyMM.png" : "/logos/blueMM.png"}
-                  alt="Logo"
-                  className="h-6 w-auto"
+                  alt="Maple Margin"
+                  // h-10 (40px) usually matches the landing page's impactful logo height
+                  className="h-10 w-auto object-contain"
                 />
               </Link>
-              <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-muted-foreground">
+              <nav className="hidden md:flex items-center gap-8 text-sm font-bold text-muted-foreground">
                 <Link
                   href="/products"
                   className="hover:text-primary transition-colors"
@@ -123,9 +127,8 @@ export default function Home() {
                 </Link>
               </nav>
             </div>
-
-            {/* Centered Switcher Labels (Replacing Icons) */}
-            <nav className="absolute left-1/2 -translate-x-1/2 flex items-center bg-muted/50 p-1 rounded-full border border-border/20 shadow-sm">
+            {/* Centered Switcher - Standardized Font */}
+            <nav className="absolute left-1/2 -translate-x-1/2 flex items-center bg-muted/50 p-1.5 rounded-full border border-border/20">
               {["Economics", "Nature", "Analysis"].map((label) => {
                 const id =
                   label.toLowerCase().slice(0, 4) === "econ"
@@ -136,9 +139,9 @@ export default function Home() {
                     key={id}
                     onClick={() => setActiveTab(id)}
                     className={cn(
-                      "px-5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all",
+                      "px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all", // Bumped from 11px to xs
                       activeTab === id
-                        ? "bg-primary text-primary-foreground shadow-md"
+                        ? "bg-primary text-primary-foreground shadow-lg"
                         : "text-muted-foreground hover:text-foreground",
                     )}
                   >
@@ -147,61 +150,60 @@ export default function Home() {
                 );
               })}
             </nav>
-
-            {/* Right Side Actions */}
-            <div className="ml-auto flex items-center gap-3">
+            <div className="ml-auto flex items-center gap-4">
               <AccessibilityMenu />
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-full"
+                className="rounded-full h-10 w-10"
                 onClick={toggleTheme}
               >
                 {isDark ? (
-                  <Sun className="h-4 w-4" />
+                  <Sun className="h-5 w-5" />
                 ) : (
-                  <Moon className="h-4 w-4" />
+                  <Moon className="h-5 w-5" />
                 )}
               </Button>
             </div>
           </div>
         </header>
 
-        {/* ═══════ SELECTION AREA (Reduced Padding) ═══════ */}
-        <div className="border-b border-border/10 bg-muted/5 px-6 py-3">
-          <div className="mx-auto max-w-6xl space-y-3">
-            <div className="flex flex-wrap gap-1.5 justify-center">
+        {/* ═══════ SELECTION AREA (Increased Font Sizes) ═══════ */}
+        <div className="border-b border-border/10 bg-muted/5 px-8 py-6">
+          {" "}
+          {/* Increased vertical padding */}
+          <div className="mx-auto max-w-6xl space-y-6">
+            <div className="flex flex-wrap gap-2 justify-center">
               {products.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => setSelectedId(p.id)}
                   className={cn(
-                    "flex items-center gap-1.5 h-7 rounded-full border px-3 text-[11px] font-bold transition-all",
+                    "flex items-center gap-2 h-9 rounded-full border px-4 text-sm font-bold transition-all", // Changed text-[11px] to text-sm
                     selectedId === p.id
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-card border-border hover:bg-accent",
+                      ? "bg-primary text-primary-foreground border-primary shadow-md"
+                      : "bg-card border-border hover:border-primary/50",
                   )}
                 >
-                  <span>{p.icon}</span> {p.name}
+                  <span className="text-base">{p.icon}</span> {p.name}
                 </button>
               ))}
             </div>
 
-            {/* Fixed Slider */}
-            <div className="mx-auto max-w-xl flex items-center gap-4 px-4 py-1.5 bg-card rounded-xl border border-border shadow-sm animate-fade-up">
-              <span className="text-[10px] font-bold uppercase text-muted-foreground whitespace-nowrap">
+            {/* Standardized Slider Area */}
+            <div className="mx-auto max-w-xl flex items-center gap-6 px-6 py-3 bg-card rounded-2xl border border-border shadow-sm">
+              <span className="text-xs font-black uppercase tracking-tighter text-muted-foreground">
                 Tariff Impact
               </span>
               <Slider
                 value={[tariffRate]}
-                // Pass the value directly to the new handler
                 onValueChange={handleSliderChange}
                 min={0}
                 max={100}
                 step={1}
                 className="flex-1"
               />
-              <div className="bg-primary text-primary-foreground px-2 py-0.5 rounded-md font-data font-bold text-xs min-w-[45px] text-center">
+              <div className="bg-primary/10 text-primary px-3 py-1 rounded-lg font-data font-black text-sm min-w-[55px] text-center border border-primary/20">
                 {tariffRate}%
               </div>
             </div>
