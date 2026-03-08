@@ -21,6 +21,7 @@ Our platform allows users to:
 - **Data Visualization**: [Recharts](https://recharts.org/)
 - **Animations**: Tailwind Animate, React Lenis (smooth scrolling)
 - **AI & Integrations**:
+  - **Antigravity (by Google DeepMind)**: Served as the primary AI pair programmer—rapidly prototyping the UI, generating complex Recharts visualizations, modeling the mock data, and integrating third-party APIs like ElevenLabs natively into the codebase.
   - **[ElevenLabs API](https://elevenlabs.io/)** for lifelike Text-to-Speech accessibility.
   - **[OpenAI API](https://openai.com/)** & **Cheerio** (used for the conceptual article analysis engine).
 
